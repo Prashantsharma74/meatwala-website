@@ -1,0 +1,1440 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+#root, .container, .app-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+
+.suggestions-dropdown {
+  display: block;
+  max-height: 200px;
+  /* Set the maximum height for the dropdown */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.recent-location {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: inherit;
+  padding-left: 10px;
+
+}
+
+.recent-location:hover {
+  background-color: #f0f0f0;
+}
+
+.recent-address {
+  display: flex;
+  align-items: center;
+}
+
+.recent-address i {
+  margin-right: 10px;
+}
+
+.recent-address h5,
+.recent-address h6 {
+  margin: 0;
+}
+
+.form_search {
+  width: 100%;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.modal-description {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.location-highlight {
+  font-weight: bold;
+  color: #01b2fe;
+  /* or any color that suits your design */
+}
+
+
+
+
+/* cart floating css */
+
+
+.cart-float {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background-color: rgb(232, 65, 53);
+  color: white;
+  padding: 15px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-float:hover {
+  background-color: #e64c3c;
+  transition: background-color 0.3s ease;
+}
+
+
+/* for support chating */
+
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  /* Ensures messages are in a column layout */
+  gap: 10px;
+  /* Adds space between messages */
+}
+
+.chat-message {
+  display: inline-block;
+  /* Allows the message to shrink or expand according to content */
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 80%;
+  /* Prevents the message from becoming too wide */
+}
+
+.chat-message.user {
+  background-color: #e0f7fa;
+  text-align: right;
+  align-self: flex-end;
+  /* Aligns the message to the right */
+}
+
+.chat-message.admin {
+  background-color: #f1f1f1;
+  text-align: left;
+  align-self: flex-start;
+  /* Aligns the message to the left */
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.chat-box .chat-date {
+  font-size: xx-small;
+}
+
+
+/* show more button  */
+
+
+.show-more-btn {
+  display: inline-block;
+  margin: 10px auto;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: rgb(232, 65, 53);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.show-more-btn:hover {
+  background-color: rgb(232, 65, 53);
+  transform: scale(1.05);
+}
+
+.show-more-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(232, 65, 53);
+}
+
+
+
+
+
+/* this is for view all ,most favrorite cart */
+
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  /* 4 columns */
+  gap: 16px;
+  /* Adjust the gap between items as needed */
+}
+
+@media (max-width: 1200px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns for medium screens */
+  }
+}
+
+@media (max-width: 992px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 columns for smaller screens */
+  }
+}
+
+
+.content {
+  padding-top: 60px;
+}
+
+
+
+/* General Styles for Parent and Child Divs */
+.parent-div {
+  display: flex;
+  flex-direction: row;
+  /* Align divs horizontally by default */
+  gap: 10px;
+  /* Add some space between divs */
+  padding: 20px;
+}
+
+
+@media (max-width: 900px) {
+
+  .grid-container {
+    grid-template-columns: 1fr;
+    /* 1 column for very small screens */
+  }
+
+  .parent-div {
+    flex-direction: column;
+    /* Stack divs vertically on small screens */
+  }
+
+  .content {
+    padding-top: 0px
+  }
+
+  .child1-div {
+    width: 100% !important
+  }
+
+
+
+}
+
+.child1-div-img {
+  width: 100%;
+  height: 300px;
+  /* Default height in pixels */
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 720px) {
+  .child1-div-img {
+    height: 350px;
+    /* Adjust height for 720px screens */
+    border-radius: 8px;
+    /* Slightly smaller border radius */
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .child1-div-img {
+    height: 300px;
+    /* Adjust height for 720px screens */
+    border-radius: 8px;
+    /* Slightly smaller border radius */
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .child1-div-img {
+    height: 250px;
+    /* Adjust height for 720px screens */
+    border-radius: 8px;
+    /* Slightly smaller border radius */
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .child1-div-img {
+    height: 200px;
+    /* Adjust height for 420px screens */
+    border-radius: 5px;
+    /* Smaller border radius */
+  }
+}
+
+
+.product-details-box-title {
+  position: -webkit-sticky;
+  /* For Safari */
+  position: static;
+  top: 0;
+  background-color: white;
+  /* Adjust based on your background color */
+  padding: 10px 0;
+  /* Optional padding */
+}
+
+
+
+@media screen and (max-width: 768px) {
+
+  .availabe-check {
+    font-size: 12px;
+  }
+}
+
+.left-box .shop-left-sidebar .category-list.scroll-bar::-webkit-scrollbar {
+  width: 16px;
+  /* Adjust the width of the scrollbar here */
+}
+
+.unique {
+  position: fixed;
+  z-index: 1000;
+  background-color: #f8f9fa;
+  width: 100%;
+  overflow-x: auto;
+  bottom: 74px;
+}
+
+/* Default vertical layout for screens larger than 900px */
+@media (min-width: 800px) {
+  .unique {
+    display: none !important;
+    position: fixed;
+    bottom: 0px;
+  }
+}
+
+
+
+.active-categoryss {
+  background-color: #0dcaf0;
+  color: white;
+  /* or whatever text color you prefer */
+  border: 1px solid #0dcaf0;
+  border-radius: 10px;
+}
+
+
+
+
+.custom-description strong {
+  font-weight: 400;
+  font-size: 14px;
+  color: #1e2728;
+}
+
+
+
+/* .pagination {
+  border-radius: 0;
+  padding: 0;
+  margin: 0
+} */
+
+.pagination ul {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  margin: 0 auto;
+  padding: 0
+}
+
+.pagination li {
+  display: inline
+}
+
+.pagination a {
+  float: left;
+  padding: 0 18px;
+  line-height: 40px;
+  text-decoration: none;
+  border: 1px solid #dbdbdb;
+  border-left-width: 0;
+  background: #fff
+}
+
+.pagination a:hover {
+  background-color: #1d184a;
+  color: #fff
+}
+
+.pagination .active a {
+  background-color: #f7f7f7;
+  color: #999;
+  cursor: default
+}
+
+.pagination .disabled span {
+  color: #999;
+  background-color: transparent;
+  cursor: default
+}
+
+.pagination .disabled a {
+  color: #999;
+  background-color: transparent;
+  cursor: default
+}
+
+.pagination .disabled a:hover {
+  color: #999;
+  background-color: transparent;
+  cursor: default
+}
+
+.pagination li:first-child a {
+  border-left-width: 1px
+}
+
+.mt-6,
+.my-6 {
+  margin-top: 3.5rem;
+}
+
+.text-danger1 {
+  font-size: 12px;
+  color: rgb(224, 67, 67);
+}
+
+/* styles.css */
+/* .mobile-background {
+  background: rgba(0, 0, 0, 0.38);
+} */
+
+@media (max-width: 768px) {
+  .mobile-background {
+    background: none !important;
+  }
+}
+
+
+
+.home-add-rest {
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  width: 100%;
+  z-index: 1;
+  position: relative;
+  padding: calc(95px + 85 * (100vw - 320px) / 1600) 0 calc(60px + 40 * (100vw - 320px) / 1600) !important;
+}
+
+.blogparent section {
+  height: 100vh;
+}
+
+
+@media (max-width: 767px) {
+  .blogparent section {
+    height: 352px;
+    margin-top: -74px;
+  }
+
+  .blogparent section h2 {
+    font-size: 20px !important;
+  }
+}
+
+/* styles.css */
+.h2-mobile {
+  font-weight: bold;
+  font-size: 44px;
+  /* Default font size */
+}
+
+/* Adjust font size for mobile */
+@media (max-width: 768px) {
+  .h2-mobile {
+    font-size: 24px;
+    /* Decrease font size for mobile */
+  }
+}
+
+/* @media (max-width: 767px) {
+
+  .home-add-rest{
+       display: none!important;
+   }
+} */
+
+@media (max-width: 768px) {
+  .home-icon {
+    padding: 15px;
+  }
+
+  .home-icon h2 {
+    font-size: 1.25rem;
+  }
+
+  .home-icon h5 {
+    font-size: 0.9rem;
+  }
+
+  .home-icon .icon {
+    width: 40px;
+    /* Smaller icons for smaller screens */
+  }
+}
+
+
+.h-wrapper1 {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  z-index: 1;
+  position: relative;
+  padding: calc(95px + 85 * (100vw - 320px) / 1600) 0 calc(60px + 40 * (100vw - 320px) / 1600) !important;
+}
+
+.subscribe-part1 .main-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.subscribe-part1 .sub-text {
+  font-size: 0.875rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.emailParent {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.apph3 {
+  font-size: calc(20px + 12 * (100vw - 320px) / 1600);
+  font-weight: 700;
+  line-height: 1.2;
+  padding-bottom: calc(5px + 5 * (100vw - 320px) / 1600);
+  color: #000;
+  position: relative;
+  margin-bottom: calc(5px + 5 * (100vw - 320px) / 1600);
+
+}
+
+
+.most-favourited-page .page-head-section {
+  padding: 0;
+  /* Remove the custom padding */
+  background: none;
+  /* Remove the background color */
+  position: static;
+  /* Reset the positioning */
+}
+
+.most-favourited-page .page-head-section::before {
+  display: none;
+  /* Hide the ::before pseudo-element */
+}
+
+.bites-font-add {
+  font-size: 44px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+
+  /* Adjust the screen width as per your requirement */
+  .s-containers {
+    margin-top: 60px;
+  }
+
+  .bites-font-add {
+    font-size: 30px;
+    font-weight: 500;
+  }
+}
+
+
+.no-scrollbar {
+  scrollbar-width: none;
+  /* For Firefox */
+  -ms-overflow-style: none;
+  /* For Internet Explorer and Edge */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* For Chrome, Safari, and Opera */
+}
+
+
+/* General Section Styling */
+/* Parent Section Styling */
+/* Section background */
+.form-section1 {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  overflow-y: auto;
+}
+
+
+.form-container1 {
+  margin: 100px auto 0 50px;
+  width: 100%;
+  max-width: 400px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.form-title1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Form title */
+.form-title1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Form group spacing */
+.form-group1 {
+  margin-bottom: 15px;
+}
+
+/* Input fields */
+.form-input1 {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+  /* Ensures padding doesn't break width */
+}
+
+/* Error message */
+.error1 {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+
+/* Checkbox styling */
+.checkbox-label1 {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Show more/less link */
+.checkbox-label1 span {
+  cursor: pointer;
+  color: #007bff;
+  margin-left: auto;
+}
+
+
+/* Checkbox Label */
+.checkbox-label1 {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-group1 a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+
+/* Toggle Text */
+.toggle-text1 {
+  color: #007BFF;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+  text-decoration: underline;
+}
+
+
+
+/* Default styling for larger screens */
+.emailParent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  /* Default is row to keep input and button side by side */
+}
+
+.email-manage {
+  width: 40%;
+}
+
+.subscribe-btn {
+  margin-top: 10px;
+  /* Space between the input and the button */
+  display: block;
+  /* Ensures the button is block-level for full width if needed */
+  width: auto;
+  /* Adjust the button width as needed */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .emailParent {
+    flex-direction: column;
+    /* Stack input and button vertically */
+    justify-content: center;
+    /* Center content */
+    align-items: center;
+    /* Center content horizontally */
+  }
+
+  .email-manage {
+    width: 80%;
+    /* Set width to 80% or any other value */
+    margin-bottom: 10px;
+    /* Add space between input and button */
+  }
+
+  .subscribe-btn {
+    width: 30%;
+    /* Make the button full-width on smaller screens */
+    margin-top: 10px;
+    /* Adjust margin for spacing */
+  }
+
+  .contactusImage {
+    background-size: cover !important;
+    background-position: none !important;
+    background-repeat: none !important;
+    height: 20vh !important;
+  }
+}
+
+.app-content1 {
+  padding-left: 30px;
+}
+
+.phone1 {
+  width: 461px;
+}
+
+@media (max-width: 480px) {
+  .email-manage input {
+    font-size: 14px;
+    /* Adjust font size for smaller devices */
+  }
+
+  .contactusImage {
+    background-size: cover !important;
+    background-position: none !important;
+    background-repeat: none !important;
+    height: 20vh !important;
+
+  }
+}
+
+
+.contactusImage {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 70vh;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+
+
+.hover-effect {
+  background-color: rgb(232, 65, 53);
+  /* Initial background color */
+  color: white;
+  /* Text color */
+  border: none;
+  /* Remove default border */
+  padding: 10px 20px;
+  /* Adjust padding as needed */
+  border-radius: 5px;
+  /* Optional rounded corners */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  /* Smooth transition for shadow and scale */
+}
+
+.hover-effect:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  /* Dark shadow on hover */
+  transform: scale(1.05);
+  /* Slightly increase the size of the button */
+}
+
+@media (min-width: 760px) and (max-width: 970px) {
+  .cart-top {
+    padding-top: 53px;
+    /* Adjust the value as needed */
+  }
+}
+
+.food-text {
+
+  font-size: 3rem;
+  /* Adjust the size to make it prominent */
+  font-weight: bold;
+  /* Make the text bold for emphasis */
+  background: linear-gradient(45deg, #ffffff, #ffffff);
+  /* Gradient effect on the text */
+  -webkit-background-clip: text;
+  /* Clip the background to the text */
+  color: transparent;
+  /* Make the text color transparent so the gradient shows */
+  text-align: center;
+  /* Center the text */
+  text-transform: uppercase;
+  /* Make the text uppercase for added impact */
+  letter-spacing: 5px;
+  /* Space out the letters for a stylish look */
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  /* Subtle shadow for depth */
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.mylist li {
+  display: block;
+  margin-bottom: 10px;
+}
+
+
+.responsive-div {
+  padding: 50px;
+  margin: 18% auto;
+}
+
+
+
+
+.meat_img-fluid {
+  max-width: 55%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+
+  /* Adjust breakpoint as needed */
+  .responsive-div {
+    padding: 0 30px 30px 30px;
+    /* Removes top padding but keeps other sides */
+    margin: 0;
+    /* Removes margin */
+  }
+
+  .meat_img-fluid {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+
+.suggestion-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ddd;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  background-color: white;
+  z-index: 1000;
+  width: 100%;
+}
+
+.suggestion-list li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestion-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.loading-spinner {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #777;
+}
+
+.div-heading h1 {
+  width: 90%;
+  font-size: calc(6px + 55 * (100vw - 320px) / 1600);
+  /* Dynamic resizing for PC screens */
+}
+
+@media (max-width: 768px) {
+  .div-heading {
+    width: 100%;
+  }
+
+  .div-heading h1 {
+    font-size: 1.5rem;
+    /* Font size for smaller screens */
+
+  }
+}
+
+/* Flexbox for mobile header elements */
+.mobile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 768px) {
+  .mobile-header {
+    flex-direction: row-reverse;
+    /* Reverses the order on mobile */
+  }
+
+  .login-btn {
+    order: -1;
+    /* Ensure login button comes before the hamburger menu */
+  }
+
+  .navbar-toggler {
+    order: 1;
+    /* Keep hamburger menu after login button */
+  }
+}
+
+/* styles.css */
+.font-large {
+  font-size: calc(43px + 10 * (100vw - 320px) / 1600);
+}
+
+.font-medium {
+  font-size: calc(15px + 6 * (100vw - 320px) / 1600);
+  color: #555;
+}
+
+/* Optional: Add responsive breakpoints for better control */
+@media (max-width: 768px) {
+  .font-large {
+    font-size: 32px;
+  }
+
+  .font-medium {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .font-large {
+    font-size: 28px;
+  }
+
+  .font-medium {
+    font-size: 12px;
+  }
+}
+
+
+
+/* styles.css */
+/* .professional-container {
+  background: #e84135;
+  margin-top: 62px;
+  padding: 20px;
+} */
+
+.professional-box {
+  width: 90%;
+  height: 80%;
+  border: 8px solid #e84135;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 53px;
+}
+
+.professional-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.bg-darks {
+  --bs-bg-opacity: 1;
+  background-color: rgb(232, 65, 53)
+}
+
+.near-me .locations ul {
+  list-style: none;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.near-me .locations ul li {
+  float: left;
+  border-left: 1px solid #0c2340;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 5px;
+}
+
+.near-me .locations ul li a {
+  color: rgb(232, 65, 53);
+}
+
+.near-me .locations ul li:first-child {
+  border-left: none;
+}
+
+/* Modal Overlay */
+/* .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.modal-header h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-body h5 {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.city-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f8f8f8;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.city-card:hover {
+  background: #e7f3ff;
+}
+
+.city-icon {
+  font-size: 24px;
+}
+
+.city-name {
+  margin-top: 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.city-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.city-list .city-name {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.city-list .city-name:hover {
+  background: #e7f3ff;
+}
+
+.modal-footer {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.hide-btn {
+  padding: 8px 16px;
+  background: #ff4d4d;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.hide-btn:hover {
+  background: #ff3333;
+}
+
+.see-more-btn {
+  background-color: #ff7f50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.see-more-btn:hover {
+  background-color: #ff5722;
+}
+ */
+
+
+.button-styles {
+  background-color: rgb(232, 65, 53) !important;
+  border: none;
+  color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+
+
+
+@media (max-width: 991px) {
+  .mnavbar {
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  .mnavbar .ml-auto {
+    margin-left: 0px;
+  }
+}
+
+
+
+
+@media (max-width: 1154px) {
+  .mlegal {
+    margin-top: 15px !important;
+  }
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+}
+
+.star input {
+  display: none;
+}
+
+.star span {
+  border: white;
+  font-size: 34px;
+  cursor: pointer;
+}
+
+.filled-star {
+  color: gold;
+}
+
+.empty-star {
+  color: #ddd;
+}
+
+
+/* Mobile get app download css  */
+
+.banner-app {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 10px 20px;
+  position: fixed;
+  font-family: Arial, sans-serif;
+  border-radius: 5px;
+}
+
+.banner-app .logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #c71c2c;
+  display: flex;
+  align-items: center;
+}
+
+.banner .logo span {
+  margin-left: 5px;
+  font-size: 14px;
+  color: #000;
+}
+
+.banner .text {
+  flex-grow: 1;
+  margin-left: 15px;
+}
+
+.banner .text p {
+  font-size: 14px;
+  color: #000;
+}
+
+.banner .text small {
+  font-size: 12px;
+  color: #666;
+}
+
+.banner .btn {
+  background-color: #c71c2c;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.banner .btn:hover {
+  background-color: #a81626;
+}
+
+.custom-modal {
+  width: 80%;
+}
+
+@media (max-width: 768px) {
+  .custom-modal {
+    width: 100%;
+  }
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border: 4px solid black;
+  border-top: 4px solid #e84135; 
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 1s linear infinite;
+  opacity: 1;
+}
+
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Hide footer on mobile view */
+.footer-desktop-only {
+  display: block;
+}
+
+@media (max-width: 576px) {
+  .footer-desktop-only {
+    display: none !important;
+  }
+}
+
+/* Hide scrollbar for webkit browsers (Safari/Chrome) */
+/* .meatwala-category-list::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+} */
+
+/* Ensure main content has proper bottom spacing */
+/* .meatwala-main-content {
+  padding-bottom: 140px !important; 
+} */
+
+/* iOS specific fixes */
+/* @media screen and (-webkit-min-device-pixel-ratio: 2) {
+  .meatwala-category-sticky {
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+} */
+
+/* iPhone specific adjustments */
+/* @media only screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) {
+  .meatwala-category-sticky {
+    bottom: 64px !important;
+  }
+} */
+
+/* iPhone X and newer with safe area */
+/* @supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .meatwala-category-sticky {
+    bottom: calc(64px + env(safe-area-inset-bottom)) !important;
+  }
+} */
+
+/* Prevent category items from being too small on mobile */
+/* @media (max-width: 480px) {
+  .meatwala-category-btn {
+    font-size: 0.75rem !important;
+    padding: 0.25rem 0.5rem !important;
+    min-height: 36px !important;
+  }
+} */
+
+
+/* iPhone 13 Pro Max specific fixes
+@supports (padding: max(0px)) {
+  .mobile-menu {
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+
+  .meatwala-category-sticky {
+    bottom: max(64px, calc(64px + env(safe-area-inset-bottom)));
+  }
+}
+
+/* Hide scrollbars on category navigation */
+/* .meatwala-category-list::-webkit-scrollbar {
+  display: none;
+} */
+
+/* Ensure proper stacking context */
+/* .mobile-menu {
+  contain: layout style paint;
+} */
+
+/* .meatwala-category-sticky {
+  contain: layout style paint;
+} */
+
+/* iPhone 13 Pro Max viewport fixes */
+/* @media screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+  .mobile-menu {
+    height: calc(64px + env(safe-area-inset-bottom, 34px));
+  } */
+
+  /* .meatwala-category-sticky {
+    bottom: calc(64px + env(safe-area-inset-bottom, 34px));
+  }
+}
+ */
+
+
+/* Make sure footer is always visible */
+.footer-section {
+  display: block !important;
+}

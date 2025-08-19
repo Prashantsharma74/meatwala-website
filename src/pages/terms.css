@@ -1,0 +1,205 @@
+/* General Reset */
+.tos-container {
+  font-family: Arial, sans-serif;
+  color: #000;
+  background-color: #fff;
+  padding: 20px;
+  padding-top: 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+ 
+.tos-wrapper,
+.tos-content,
+.tos-main {
+  width: 100%;
+  padding-top: calc(0px + 50 * (100vw - 320px) / 1600);
+}
+ 
+/* Header */
+.tos-header {
+  border-bottom: 1px solid #000;
+}
+ 
+.mytabbs{
+  padding:  28px;
+}
+ 
+.tos-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: #000;
+}
+ 
+.tos-divider {
+  display: none;
+}
+ 
+.tos-intro {
+  font-size: 1rem;
+  color: #000;
+}
+ 
+.tos-last-updated p {
+  font-size: 0.85rem;
+  color: #000;
+  margin-top: 10px;
+ 
+}
+ 
+/* Section titles */
+.tos-section {
+margin-top: 20px;
+}
+ 
+.tos-section-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000;
+ 
+  display: block;
+}
+ 
+.tos-section-number {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-right: 10px;
+  color: #000;
+  background: none;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  line-height: normal;
+  text-align: left;
+  user-select: auto;
+ 
+}
+ 
+/* Company info */
+.company-info-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000;
+}
+ 
+.company-info-details {
+  margin-bottom: 20px;
+}
+ 
+.company-info-item p {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #000;
+}
+ 
+.company-info-item a {
+  color: #000;
+  text-decoration: underline;
+}
+ 
+.company-info-item a:hover {
+  text-decoration: underline;
+}
+ 
+/* Lists */
+.tos-about-list ul,
+.tos-additional-terms ul,
+.tos-additional-terms-lists ul,
+.not-liable ul,
+.remain-liable ul {
+  list-style: disc inside;
+  color: #000;
+  font-size: 1rem;
+  margin: 10px 0 10px 20px;
+}
+ 
+/* Subsection Titles */
+.subsection-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000;
+}
+ 
+/* Text blocks */
+.tos-text p,
+.order-info p,
+.cancel-info p,
+.pricing-info p,
+.access-info p,
+.liability-info p,
+.governing-law-text p,
+.allergies-text p {
+  font-size: 1rem;
+  color: #000;
+  max-width: 700px;
+  margin-bottom: 12px;
+}
+ 
+/* Notes */
+.tos-note p {
+  background: none;
+  border: none;
+  padding: 0;
+  font-style: normal;
+  color: #000;
+  max-width: 700px;
+  border-radius: 0;
+}
+ 
+/* Allergies Section */
+.allergies-notice-wrapper {
+  display: block;
+  max-width: 700px;
+}
+ 
+.allergies-icon svg {
+  display: none;
+}
+ 
+.allergies-text h3 {
+  margin-top: 0;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #000;
+}
+ 
+/* Liability Section */
+.liability-details {
+  display: block;
+  margin-top: 20px;
+}
+ 
+.not-liable,
+.remain-liable {
+  margin-bottom: 15px;
+}
+ 
+.not-liable h3,
+.remain-liable h3 {
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 10px;
+}
+ 
+/* Footer */
+.tos-footer {
+  border-top: 1px solid #000;
+  padding-top: 20px;
+  margin-top: 40px;
+  text-align: center;
+  color: #000;
+  font-size: 0.9rem;
+}
+ 
+.footer-contact {
+  margin-bottom: 15px;
+}
+ 
+.footer-contact h3 {
+  font-weight: bold;
+  color: #000;
+}

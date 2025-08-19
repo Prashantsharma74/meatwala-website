@@ -1,0 +1,88 @@
+{
+  "name": "food_desktop",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@coreui/react": "^5.3.0",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@mui/material": "^5.16.7",
+    "@mui/styled-engine": "^5.16.6",
+    "@progress/kendo-react-buttons": "^8.2.0",
+    "@progress/kendo-react-popup": "^8.2.0",
+    "@react-google-maps/api": "^2.19.3",
+    "@reduxjs/toolkit": "^2.2.6",
+    "@syncfusion/ej2-react-buttons": "^26.2.7",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.2",
+    "body-scroll-lock": "^4.0.0-beta.0",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "crypto-browserify": "^3.12.0",
+    "date-fns": "^2.30.0",
+    "dompurify": "^3.1.6",
+    "dotenv": "^16.4.5",
+    "google-map-react": "^2.2.1",
+    "install": "^0.13.0",
+    "intl-tel-input": "^23.9.3",
+    "lodash": "^4.17.21",
+    "lucide-react": "^0.514.0",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.46",
+    "npm": "^10.9.2",
+    "react": "^18.3.1",
+    "react-app-rewired": "^2.2.1",
+    "react-bootstrap": "^2.10.5",
+    "react-cookie-consent": "^9.0.0",
+    "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
+    "react-icons": "^5.2.1",
+    "react-lazy-load-image-component": "^1.6.3",
+    "react-loader-spinner": "^6.1.6",
+    "react-phone-input-2": "^2.15.1",
+    "react-redux": "^9.1.2",
+    "react-router-dom": "^6.24.1",
+    "react-scripts": "5.0.1",
+    "react-select": "^5.9.0",
+    "react-slick": "^0.30.2",
+    "react-toastify": "^10.0.5",
+    "reactstrap": "^9.2.3",
+    "redux-persist": "^6.0.0",
+    "styled-components": "^6.1.12",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.14.5",
+    "swiper": "^11.1.14",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.10"
+  }
+}

@@ -1,0 +1,44 @@
+/* PrivacyPolicy.css */
+.containers {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+    padding-top: 120px; /* Ensure this matches or exceeds the height of your navbar */
+    font-family: Arial, sans-serif;
+  }
+  
+  .containers h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .containers h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .containers p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  
+  /* Media query for screens smaller than 768px */
+  @media (max-width: 768px) {
+    .containers {
+      padding-top: 0px; /* Reduced padding for mobile */
+    }
+  
+    .containers h1 {
+      font-size: 1.5rem;
+    }
+  
+    .containers h2 {
+      font-size: 1.2rem;
+    }
+  
+    .containers p {
+      font-size: 0.9rem;
+    }
+  }
+  
