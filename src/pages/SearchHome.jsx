@@ -784,6 +784,8 @@ import Footer from "../components/Footer";
 import FooterMobileMenu from "../components/FooterMobileMenu";
 import Delivery from "../components/delivery";
 import homescreen from "../assets/three1.png";
+import homescreen1 from "../assets/mobile1.png";
+import homescreen2 from "../assets/mobile2.png";
 import { TbMeat, TbTruckDelivery } from "react-icons/tb";
 import burger from "../assets/newmainimage.jpg";
 import { FaHandsHelping } from "react-icons/fa";
@@ -1434,9 +1436,9 @@ const Home = () => {
             <div className="row align-items-center">
               <div className="col-12 col-md-6 mb-4 mb-md-0">
                 <div className="app-img text-center text-md-start">
-                  <img
+                  <img 
                     className="phone1 img-fluid"
-                    src={`${homescreen}`}
+                    src={`${homescreen2}`}
                     alt="app-phone"
                   />
                 </div>
