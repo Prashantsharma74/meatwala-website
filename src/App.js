@@ -10,6 +10,7 @@ import {
   Routes,
   Route,
   Outlet,
+  useLocation,
 } from "react-router-dom";
 import React from "react";
 import { Provider } from "react-redux";
@@ -70,13 +71,24 @@ import Search from "./pages/search";
 import City from "./pages/City";
 import Cookie from "./pages/Cookie";
 import Wholesale from "./pages/WholeSales";
+import { gtmPageview } from "./utils/gtm";
 
 function App() {
+
+  function GtmRouteListener() {
+    const { pathname, search } = useLocation();
+    React.useEffect(() => {
+      gtmPageview(pathname + search);
+    }, [pathname, search]);
+    return null;
+  }
+
   return (
     <Provider store={store}>
       {/* <ToastContainer /> */}
       <Router>
         <ScrollToTop />
+        <GtmRouteListener />
         <Routes>
           <Route path="/*" element={<NotFound />} />
           <Route path="/login" element={<Login />} />
