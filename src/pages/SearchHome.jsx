@@ -44,6 +44,10 @@ const Home = () => {
   const [address, setAddress] = useState("");
   const [restaurants, setRestaurants] = useState([]);
   const [titl, setTitl] = useState("")
+  // near the other useState lines
+  const [selectedSuggestion, setSelectedSuggestion] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
   // On component mount, load address from localStorage
   useEffect(() => {
     const savedAddress = localStorage.getItem("userAddress");
@@ -185,55 +189,144 @@ const Home = () => {
   };
 
 
+  // const handleSuggestionClick = (suggestion) => {
+  //   setSearchTerm(suggestion.formattedAddress);
+  //   setSuggestions([]);
+  //   setIsSuggestionSelected(true); // Show button on suggestion click
+
+  //   // Retrieve the existing userAddress object from local storage
+  //   const existingUserAddress =
+  //     JSON.parse(localStorage.getItem("userAddress")) || {};
+
+  //   // Update the userAddress with new data (address, lat, lng)
+  //   const updatedUserAddress = {
+  //     ...existingUserAddress,
+  //     address: suggestion.formattedAddress,
+  //     lat: suggestion.lat.toString(),
+  //     lng: suggestion.lng.toString(),
+  //   };
+
+  //   // Save the updated userAddress to local storage
+  //   localStorage.setItem("userAddress", JSON.stringify(updatedUserAddress));
+
+  //   // Dispatch updated userAddress to Redux
+  //   dispatch(updateKeyValue({ key: "userAddress", value: updatedUserAddress }));
+
+  //   // Now update the pincode in local storage and Redux
+  //   const pincode = {
+  //     longName: suggestion.postcode,
+  //     shortName: suggestion.postcode,
+  //     types: ["postal_code"],
+  //   };
+
+  //   // Save pincode to local storage
+  //   localStorage.setItem("pincode", JSON.stringify(pincode));
+
+  //   // Dispatch pincode to Redux
+  //   dispatch(setPincode(pincode));
+  // };
+
+  // const handleSearchSubmit = async () => {
+  //   if (!isSuggestionSelected) {
+  //     Swal.fire({
+  //       icon: "warning",
+  //       title: "Select a suggestion",
+  //       text: "Please select an address from the suggestions before searching.",
+  //       confirmButtonColor: "rgb(232, 65, 53)",
+  //     });
+  //     return;
+  //   }
+
+  //   if (!searchTerm.trim() && !address.trim()) {
+  //     Swal.fire({
+  //       icon: "warning",
+  //       title: "Enter your postcode",
+  //       text: "Please enter and select a valid address from suggestions.",
+  //       confirmButtonColor: "rgb(232, 65, 53)",
+  //     });
+  //     return;
+  //   }
+
+  //   // Find the suggestion that matches the current search term
+  //   const selectedSuggestion = suggestions.find(
+  //     (suggestion) => suggestion.formattedAddress === searchTerm
+  //   );
+
+
+  //   if (selectedSuggestion) {
+  //     try {
+  //       const areRestaurantsAvailable = await fetchRestaurants(
+  //         selectedSuggestion.lat.toString(),
+  //         selectedSuggestion.lng.toString(),
+  //         selectedSuggestion.postcode
+  //       );
+
+  //       if (!areRestaurantsAvailable) {
+  //         Swal.fire({
+  //           icon: "info",
+  //           title: "Coming Soon!",
+  //           text: "We’re not in your area yet, but launching soon. Stay tuned!",
+  //           confirmButtonColor: "rgb(232, 65, 53)",
+  //           iconColor: "rgb(232, 65, 53)",
+  //         });
+  //       } else {
+  //         // Open the modal
+  //         const modal = new bootstrap.Modal(
+  //           document.getElementById("address-details")
+  //         );
+  //         modal.show();
+  //       }
+  //     } catch (error) {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Oops...",
+  //         text: "An error occurred while opening the modal. Please try again.",
+  //         confirmButtonColor: "rgb(232, 65, 53)",
+  //       });
+  //     }
+  //   } else {
+  //     navigate("/shop");
+  //   }
+  // };
+
   const handleSuggestionClick = (suggestion) => {
+    setSelectedSuggestion(suggestion);
     setSearchTerm(suggestion.formattedAddress);
     setSuggestions([]);
-    setIsSuggestionSelected(true); // Show button on suggestion click
+    setIsSuggestionSelected(true);
 
-    // Retrieve the existing userAddress object from local storage
-    const existingUserAddress =
-      JSON.parse(localStorage.getItem("userAddress")) || {};
-
-    // Update the userAddress with new data (address, lat, lng)
+    // persist address + pincode (your existing code)
+    const existingUserAddress = JSON.parse(localStorage.getItem("userAddress")) || {};
     const updatedUserAddress = {
       ...existingUserAddress,
       address: suggestion.formattedAddress,
       lat: suggestion.lat.toString(),
       lng: suggestion.lng.toString(),
     };
-
-    // Save the updated userAddress to local storage
     localStorage.setItem("userAddress", JSON.stringify(updatedUserAddress));
-
-    // Dispatch updated userAddress to Redux
     dispatch(updateKeyValue({ key: "userAddress", value: updatedUserAddress }));
 
-    // Now update the pincode in local storage and Redux
     const pincode = {
       longName: suggestion.postcode,
       shortName: suggestion.postcode,
       types: ["postal_code"],
     };
-
-    // Save pincode to local storage
     localStorage.setItem("pincode", JSON.stringify(pincode));
-
-    // Dispatch pincode to Redux
     dispatch(setPincode(pincode));
+
+    // 👉 Immediately go to next step
+    handleSearchSubmit(suggestion);
   };
 
-  const handleSearchSubmit = async () => {
-    if (!isSuggestionSelected) {
-      Swal.fire({
-        icon: "warning",
-        title: "Select a suggestion",
-        text: "Please select an address from the suggestions before searching.",
-        confirmButtonColor: "rgb(232, 65, 53)",
-      });
-      return;
-    }
+  const handleSearchSubmit = async (clickedSuggestion) => {
+    if (isProcessing) return; // prevent double runs
 
-    if (!searchTerm.trim() && !address.trim()) {
+    const choice =
+      clickedSuggestion ||
+      selectedSuggestion ||
+      suggestions.find((s) => s.formattedAddress === searchTerm);
+
+    if (!choice && !address.trim()) {
       Swal.fire({
         icon: "warning",
         title: "Enter your postcode",
@@ -243,47 +336,39 @@ const Home = () => {
       return;
     }
 
-    // Find the suggestion that matches the current search term
-    const selectedSuggestion = suggestions.find(
-      (suggestion) => suggestion.formattedAddress === searchTerm
-    );
+    try {
+      setIsProcessing(true);
+      const areRestaurantsAvailable = await fetchRestaurants(
+        choice.lat.toString(),
+        choice.lng.toString(),
+        choice.postcode
+      );
 
-
-    if (selectedSuggestion) {
-      try {
-        const areRestaurantsAvailable = await fetchRestaurants(
-          selectedSuggestion.lat.toString(),
-          selectedSuggestion.lng.toString(),
-          selectedSuggestion.postcode
-        );
-
-        if (!areRestaurantsAvailable) {
-          Swal.fire({
-            icon: "info",
-            title: "Coming Soon!",
-            text: "We’re not in your area yet, but launching soon. Stay tuned!",
-            confirmButtonColor: "rgb(232, 65, 53)",
-            iconColor: "rgb(232, 65, 53)",
-          });
-        } else {
-          // Open the modal
-          const modal = new bootstrap.Modal(
-            document.getElementById("address-details")
-          );
-          modal.show();
-        }
-      } catch (error) {
+      if (!areRestaurantsAvailable) {
         Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "An error occurred while opening the modal. Please try again.",
+          icon: "info",
+          title: "Coming Soon!",
+          text: "We’re not in your area yet, but launching soon. Stay tuned!",
           confirmButtonColor: "rgb(232, 65, 53)",
+          iconColor: "rgb(232, 65, 53)",
         });
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById("address-details"));
+        modal.show();
       }
-    } else {
-      navigate("/shop");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "An error occurred while opening the modal. Please try again.",
+        confirmButtonColor: "rgb(232, 65, 53)",
+      });
+    } finally {
+      setIsProcessing(false);
     }
   };
+
+
   const handlebtnclose = () => {
     const modal = bootstrap.Modal.getInstance(
       document.getElementById("address-details")
@@ -363,95 +448,6 @@ const Home = () => {
                     >
                       SKIP THE QUEUE, ORDER FOR COLLECTION OR DELIVERY
                     </h3>
-                    {/* <div
-                      className="search-section d-flex flex-column align-items-center"
-                      style={{ position: "relative", width: "100%" }}
-                    >
-                      <div
-                        className="d-flex align-items-center"
-                        style={{ width: "100%", marginTop: "20px" }}
-                      >
-                        <input
-                          type="search"
-                          className="form-control search-input"
-                          placeholder="Enter your postcode"
-                          value={`${titl ? titl + ', ' : ''}${searchTerm || address}`}
-                          onChange={handleInputChange}
-                          onFocus={() => setIsSuggestionSelected(false)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              e.preventDefault();
-                              handleSearchSubmit();
-                            }
-                          }}
-                          style={{
-                            // borderRadius: "30px 30px 30px 30px",
-                            borderRadius: isSuggestionSelected ? "30px 0px 0px 30px" : "30px 30px 30px 30px",
-                            padding: "9px 15px",
-                            border: "1px solid #ddd",
-                            flex: 1,
-                            height: "45px",
-                          }}
-                        />
-                        {isSuggestionSelected && (
-                          <button
-                            className="btn btn-primary search-button"
-                            onClick={handleSearchSubmit}
-                            style={{
-                              borderRadius: "0 30px 30px 0",
-                              padding: "11px 20px",
-                              backgroundColor: "#E84135",
-                              border: "none",
-                              height: "45px",
-                            }}
-                          >
-                            Search
-                          </button>
-                        )}
-                      </div>
-
-                      {suggestions.length > 0 && (
-                        <ul
-                          className="suggestion-list"
-                          style={{
-                            listStyleType: "none",
-                            margin: "10px 0 0",
-                            padding: "0",
-                            width: "100%",
-                            backgroundColor: "#fff",
-                            border: "1px solid #ddd",
-                            borderRadius: "5px",
-                            maxHeight: "200px",
-                            overflowY: "auto",
-                            position: "absolute",
-                            top: "100%",
-                            zIndex: 10,
-                          }}
-                        >
-                          {suggestions
-                            .filter(
-                              (suggestion) =>
-                                suggestion.formattedAddress !== searchTerm
-                            )
-                            .map((suggestion, index) => (
-                              <li
-                                key={index}
-                                onClick={() =>
-                                  handleSuggestionClick(suggestion)
-                                }
-                                style={{
-                                  padding: "10px",
-                                  cursor: "pointer",
-                                  borderBottom: "1px solid #eee",
-                                  width: "100%",
-                                }}
-                              >
-                                {suggestion.formattedAddress}
-                              </li>
-                            ))}
-                        </ul>
-                      )}
-                    </div> */}
                     <div
                       className=""
                       style={{ position: "relative", width: "100%" }}
@@ -467,10 +463,15 @@ const Home = () => {
                           value={`${titl ? titl + ', ' : ''}${searchTerm || address}`}
                           onChange={handleInputChange}
                           onFocus={() => setIsSuggestionSelected(false)}
+                          // onKeyDown={(e) => {
+                          //   if (e.key === "Enter") {
+                          //     e.preventDefault();
+                          //     handleSearchSubmit();
+                          //   }
+                          // }}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                              e.preventDefault();
-                              handleSearchSubmit();
+                              e.preventDefault(); // don't manually submit
                             }
                           }}
                           style={{
@@ -489,7 +490,7 @@ const Home = () => {
                         {isSuggestionSelected && (
                           <button
                             className="btn btn-primary search-button"
-                            onClick={handleSearchSubmit}
+                            // onClick={handleSearchSubmit}
                             style={{
                               borderRadius: "0 30px 30px 0",
                               padding: "11px 20px",
@@ -500,6 +501,22 @@ const Home = () => {
                           >
                             Search
                           </button>
+                          // <button
+                          //   className="btn btn-primary search-button"
+                          //   type="button"
+                          //   aria-disabled="true"
+                          //   style={{
+                          //     borderRadius: "0 30px 30px 0",
+                          //     padding: "11px 20px",
+                          //     backgroundColor: "#E84135",
+                          //     border: "none",
+                          //     height: "45px",
+                          //     opacity: 0.7,           // subtle visual hint it's inactive
+                          //     pointerEvents: "none",  // no click action
+                          //   }}
+                          // >
+                          //   Search
+                          // </button>
                         )}
                       </div>
                       {suggestions.length > 0 && (
