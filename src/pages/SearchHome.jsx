@@ -663,7 +663,13 @@ const Home = () => {
                     money with exclusive deals and give back through charitable
                     donations—all in one place!
                   </h5>
-                  <div className="app-buttons d-flex justify-content-center justify-content-md-start gap-3 mt-4">
+
+                  <h3 className="apph3 mt-2">Download the App</h3>
+                  <h5>
+                    Click, order and get it delivered fresh.
+                  </h5>
+
+                  <div className="app-buttons d-flex justify-content-center justify-content-md-start gap-3 mt-2">
                     <a
                       href="https://apps.apple.com/us/app/meatwala/id6742139486"
                       target="_blank"
