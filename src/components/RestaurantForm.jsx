@@ -301,7 +301,7 @@ const RegistrationForm = () => {
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
                 {/* Business Name */}
-                <div className="mb-3">
+                <div className="mb-2">
                   <label className="form-labels">Business Name*</label>
                   <input
                     type="text"
@@ -315,7 +315,7 @@ const RegistrationForm = () => {
                 </div>
 
                 {/* Contact Number */}
-                <div className="mb-3">
+                <div className="mb-2">
                   <label className="form-labels">Contact No*</label>
                   <input
                     type="text"
@@ -329,7 +329,7 @@ const RegistrationForm = () => {
                 </div>
 
                 {/* Email */}
-                <div className="mb-3">
+                <div className="mb-2">
                   <label className="form-labels">Email*</label>
                   <input
                     type="email"
@@ -344,7 +344,7 @@ const RegistrationForm = () => {
 
                 {/* Location */}
                 {/* Location */}
-                <div className="mb-3 position-relative">
+                <div className="mb-2 position-relative">
                   <label className="form-labels">Location*</label>
                   <input
                     type="text"
@@ -377,7 +377,7 @@ const RegistrationForm = () => {
                 </div>
 
                 {/* Type */}
-                <div className="mb-3">
+                <div className="mb-2">
                   <label className="form-labels">Type*</label>
                   <select
                     style={{ border: "1px solid" }}
@@ -394,7 +394,7 @@ const RegistrationForm = () => {
                 </div>
 
                 {/* Upload Documents */}
-                <div className="mb-3">
+                <div className="mb-2">
                   <label className="form-labels">
                     Upload Menu or Product List
                   </label>
@@ -411,7 +411,7 @@ const RegistrationForm = () => {
                 </div>
 
                 {/* Password */}
-                <div className="mb-3">
+                <div className="mb-2">
                   <label className="form-labels">Password*</label>
                   <input
                     type="password"
@@ -425,7 +425,7 @@ const RegistrationForm = () => {
                 </div>
 
                 {/* Confirm Password */}
-                <div className="mb-3">
+                <div className="mb-2">
                   <label className="form-labels">Confirm Password*</label>
                   <input
                     type="password"
@@ -442,7 +442,7 @@ const RegistrationForm = () => {
                 </div>
 
                 {/* Terms and Conditions */}
-                <div className="form-check mb-3">
+                <div className="form-check mb-2">
                   <input
                     style={{ border: "1px solid" }}
                     type="checkbox"
@@ -459,7 +459,7 @@ const RegistrationForm = () => {
                 </div>
 
                 {/* Submit Button */}
-                <button type="submit" className="btn theme-btn">
+                <button type="submit" className="btn theme-btn w-100">
                   Submit
                 </button>
               </form>
