@@ -15,7 +15,6 @@ const Login = () => {
     (state) => state.User
   );
 
-  // State for holding phone number with country code
   const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const Login = () => {
       dispatch(resetState());
       toast.error("Mobile Number is Invalid");
     }
-  }, [success, navigate, dispatch]);
+  }, [status, navigate, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -92,8 +91,28 @@ const Login = () => {
                         />
                       </div>
                     </div>
-                    <button className="btn theme-btn w-100 mt-4" type="submit">
+                    {/* <button className="btn theme-btn w-100 mt-4" type="submit">
                       Send OTP
+                    </button> */}
+                    <button
+                      className="btn theme-btn w-100 mt-4 d-inline-flex align-items-center justify-content-center"
+                      type="submit"
+                      disabled={loading}
+                      aria-busy={loading}
+                      aria-live="polite"
+                    >
+                      {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-2"
+                            role="status"
+                            aria-hidden="true"
+                          />
+                          Sending…
+                        </>
+                      ) : (
+                        "Send OTP"
+                      )}
                     </button>
                   </form>
                 </div>

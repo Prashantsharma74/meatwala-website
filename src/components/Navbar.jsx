@@ -33,17 +33,17 @@
 //   // Utility function to extract clean postcode from nested JSON
 //   const extractCleanPostcode = (value) => {
 //     if (!value) return "";
-    
+
 //     // If it's already a simple string like "HP12", return it
 //     if (typeof value === 'string' && !value.includes('{') && !value.includes('"')) {
 //       return value;
 //     }
-    
+
 //     // If it's a nested JSON string, recursively parse until we get the clean value
 //     let current = value;
 //     let attempts = 0;
 //     const maxAttempts = 5; // Prevent infinite loops
-    
+
 //     while (attempts < maxAttempts) {
 //       try {
 //         if (typeof current === 'string' && (current.includes('{') || current.includes('"'))) {
@@ -61,7 +61,7 @@
 //         break;
 //       }
 //     }
-    
+
 //     return typeof current === 'string' ? current : "";
 //   };
 
@@ -69,21 +69,21 @@
 //   const storePincodeAsCleanJSON = (postcodeString) => {
 //     // Ensure we have a clean string first
 //     const cleanPostcode = extractCleanPostcode(postcodeString);
-    
+
 //     const pincodeObject = {
 //       longName: cleanPostcode,
 //       shortName: cleanPostcode,
 //       types: ["postal_code"]
 //     };
-    
+
 //     // Clear existing data first
 //     localStorage.removeItem("pincode");
 //     setCookie("pincode", "");
-    
+
 //     // Store the clean JSON
 //     localStorage.setItem("pincode", JSON.stringify(pincodeObject));
 //     setCookie("pincode", JSON.stringify(pincodeObject));
-    
+
 //     console.log("Stored clean pincode:", pincodeObject);
 //     return cleanPostcode;
 //   };
@@ -227,7 +227,7 @@
 //     const response = await axios.get(
 //       `https://partnermeatwala.com/api/customer/geocode?place=${suggestion.secondaryText}`
 //     );
-    
+
 //     if (response?.data?.results[0]?.geometry?.location) {
 //       const locationData = response.data.results[0].geometry.location;
 //       setLocation(locationData);
@@ -284,12 +284,12 @@
 //   useEffect(() => {
 //     const savedPincode = localStorage.getItem("pincode") || "";
 //     console.log("Raw saved pincode:", savedPincode);
-    
+
 //     if (savedPincode) {
 //       // Extract clean postcode and re-store as clean JSON
 //       const cleanPostcode = extractCleanPostcode(savedPincode);
 //       console.log("Extracted clean postcode:", cleanPostcode);
-      
+
 //       if (cleanPostcode) {
 //         // Re-store as clean JSON to fix any nested issues
 //         storePincodeAsCleanJSON(cleanPostcode);
@@ -305,7 +305,7 @@
 //     if (inputPincode) {
 //       const currentStored = localStorage.getItem("pincode");
 //       const cleanPostcode = extractCleanPostcode(inputPincode);
-      
+
 //       // Only update if it's different to avoid loops
 //       if (cleanPostcode && cleanPostcode !== extractCleanPostcode(currentStored)) {
 //         storePincodeAsCleanJSON(cleanPostcode);
@@ -341,7 +341,7 @@
 //         localStorage.setItem("userAddress", JSON.stringify(data));
 //         setCookie("userAddress", JSON.stringify(data));
 //         localStorage.setItem("manualAddressSelection", "true");
-        
+
 //         dispatch(updateKeyValue({ key: "userAddress", value: data }));
 //         setStoredAddress(data);
 //         window.dispatchEvent(new Event('localStorageUpdate'));
@@ -349,7 +349,7 @@
 //         // Ensure pincode is stored as clean JSON
 //         storePincodeAsCleanJSON(cleanPostcode);
 //         dispatch(setPincode(cleanPostcode));
-        
+
 //         setTitle("");
 //         callData();
 //         window.location.reload();
@@ -371,13 +371,13 @@
 
 //         const currentStoredAddress = localStorage.getItem("userAddress");
 //         const hasManualSelection = localStorage.getItem("manualAddressSelection");
-        
+
 //         if (!hasManualSelection && addresses.length > 0 && !currentStoredAddress) {
 //           const lastAddress = addresses[addresses.length - 1];
 //           localStorage.setItem("userAddress", JSON.stringify(lastAddress));
 //           setCookie("userAddress", JSON.stringify(lastAddress));
 //           dispatch(updateKeyValue({ key: "userAddress", value: lastAddress }));
-          
+
 //           setStoredAddress(lastAddress);
 //           window.dispatchEvent(new Event('localStorageUpdate'));
 //         } else if (!storedUser && !currentStoredAddress) {
@@ -451,7 +451,7 @@
 //     localStorage.setItem("userAddress", JSON.stringify(updatedAddress));
 //     setCookie("userAddress", JSON.stringify(updatedAddress));
 //     localStorage.setItem("manualAddressSelection", "true");
-    
+
 //     dispatch(updateKeyValue({ key: "userAddress", value: updatedAddress }));
 //     setStoredAddress(updatedAddress);
 //     window.dispatchEvent(new Event('localStorageUpdate'));
@@ -462,7 +462,7 @@
 //       storePincodeAsCleanJSON(cleanPostcode);
 //       setInputPincode(cleanPostcode);
 //     }
-    
+
 //     callData();
 //     window.location.reload();
 //   };
@@ -473,7 +473,7 @@
 //         const { latitude, longitude } = position.coords;
 //         setLocation(position.coords);
 //         console.log(location?.latitude, "handle");
-        
+
 //         try {
 //           const response = await axios.get(
 //             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBePruYxWbLAsOVswTaH0OHPyv8vx-mMcc`
@@ -495,11 +495,11 @@
 
 //             if (postalCodeComponent) {
 //               const postalCode = postalCodeComponent.long_name.slice(0, 4).toUpperCase();
-              
+
 //               // Store as clean JSON object
 //               const cleanPostcode = storePincodeAsCleanJSON(postalCode);
 //               setInputPincode(cleanPostcode);
-              
+
 //               console.log("New pincode saved:", postalCode);
 //               break;
 //             }
@@ -557,14 +557,14 @@
 //         setLogoHeight("45px");
 //       }
 //     };
- 
+
 //     updateLogoSize(); // call once on mount
 //     window.addEventListener("resize", updateLogoSize); // listen for resize
- 
+
 //     return () => window.removeEventListener("resize", updateLogoSize); // cleanup
 //   }, []);
- 
- 
+
+
 
 //   return (
 //     <>
@@ -1047,17 +1047,17 @@ const Navbar = ({ isStatic, text }) => {
   // Utility function to extract clean postcode from nested JSON
   const extractCleanPostcode = (value) => {
     if (!value) return "";
-    
+
     // If it's already a simple string like "HP12", return it
     if (typeof value === 'string' && !value.includes('{') && !value.includes('"')) {
       return value;
     }
-    
+
     // If it's a nested JSON string, recursively parse until we get the clean value
     let current = value;
     let attempts = 0;
     const maxAttempts = 5; // Prevent infinite loops
-    
+
     while (attempts < maxAttempts) {
       try {
         if (typeof current === 'string' && (current.includes('{') || current.includes('"'))) {
@@ -1075,7 +1075,7 @@ const Navbar = ({ isStatic, text }) => {
         break;
       }
     }
-    
+
     return typeof current === 'string' ? current : "";
   };
 
@@ -1083,21 +1083,21 @@ const Navbar = ({ isStatic, text }) => {
   const storePincodeAsCleanJSON = (postcodeString) => {
     // Ensure we have a clean string first
     const cleanPostcode = extractCleanPostcode(postcodeString);
-    
+
     const pincodeObject = {
       longName: cleanPostcode,
       shortName: cleanPostcode,
       types: ["postal_code"]
     };
-    
+
     // Clear existing data first
     localStorage.removeItem("pincode");
     setCookie("pincode", "");
-    
+
     // Store the clean JSON
     localStorage.setItem("pincode", JSON.stringify(pincodeObject));
     setCookie("pincode", JSON.stringify(pincodeObject));
-    
+
     return cleanPostcode;
   };
 
@@ -1232,7 +1232,7 @@ const Navbar = ({ isStatic, text }) => {
     const response = await axios.get(
       `https://partnermeatwala.com/api/customer/geocode?place=${suggestion.secondaryText}`
     );
-    
+
     if (response?.data?.results[0]?.geometry?.location) {
       const locationData = response.data.results[0].geometry.location;
       setLocation(locationData);
@@ -1282,11 +1282,11 @@ const Navbar = ({ isStatic, text }) => {
   // Fixed useEffect for loading pincode - clean up nested JSON
   useEffect(() => {
     const savedPincode = localStorage.getItem("pincode") || "";
-    
+
     if (savedPincode) {
       // Extract clean postcode and re-store as clean JSON
       const cleanPostcode = extractCleanPostcode(savedPincode);
-      
+
       if (cleanPostcode) {
         // Re-store as clean JSON to fix any nested issues
         storePincodeAsCleanJSON(cleanPostcode);
@@ -1302,7 +1302,7 @@ const Navbar = ({ isStatic, text }) => {
     if (inputPincode) {
       const currentStored = localStorage.getItem("pincode");
       const cleanPostcode = extractCleanPostcode(inputPincode);
-      
+
       // Only update if it's different to avoid loops
       if (cleanPostcode && cleanPostcode !== extractCleanPostcode(currentStored)) {
         storePincodeAsCleanJSON(cleanPostcode);
@@ -1336,7 +1336,7 @@ const Navbar = ({ isStatic, text }) => {
         localStorage.setItem("userAddress", JSON.stringify(data));
         setCookie("userAddress", JSON.stringify(data));
         localStorage.setItem("manualAddressSelection", "true");
-        
+
         dispatch(updateKeyValue({ key: "userAddress", value: data }));
         setStoredAddress(data);
         window.dispatchEvent(new Event('localStorageUpdate'));
@@ -1344,7 +1344,7 @@ const Navbar = ({ isStatic, text }) => {
         // Ensure pincode is stored as clean JSON
         storePincodeAsCleanJSON(cleanPostcode);
         dispatch(setPincode(cleanPostcode));
-        
+
         setTitle("");
         callData();
         window.location.reload();
@@ -1366,13 +1366,13 @@ const Navbar = ({ isStatic, text }) => {
 
         const currentStoredAddress = localStorage.getItem("userAddress");
         const hasManualSelection = localStorage.getItem("manualAddressSelection");
-        
+
         if (!hasManualSelection && addresses.length > 0 && !currentStoredAddress) {
           const lastAddress = addresses[addresses.length - 1];
           localStorage.setItem("userAddress", JSON.stringify(lastAddress));
           setCookie("userAddress", JSON.stringify(lastAddress));
           dispatch(updateKeyValue({ key: "userAddress", value: lastAddress }));
-          
+
           setStoredAddress(lastAddress);
           window.dispatchEvent(new Event('localStorageUpdate'));
         } else if (!storedUser && !currentStoredAddress) {
@@ -1443,7 +1443,7 @@ const Navbar = ({ isStatic, text }) => {
     localStorage.setItem("userAddress", JSON.stringify(updatedAddress));
     setCookie("userAddress", JSON.stringify(updatedAddress));
     localStorage.setItem("manualAddressSelection", "true");
-    
+
     dispatch(updateKeyValue({ key: "userAddress", value: updatedAddress }));
     setStoredAddress(updatedAddress);
     window.dispatchEvent(new Event('localStorageUpdate'));
@@ -1454,7 +1454,7 @@ const Navbar = ({ isStatic, text }) => {
       storePincodeAsCleanJSON(cleanPostcode);
       setInputPincode(cleanPostcode);
     }
-    
+
     callData();
     window.location.reload();
   };
@@ -1464,7 +1464,7 @@ const Navbar = ({ isStatic, text }) => {
       navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude, longitude } = position.coords;
         setLocation(position.coords);
-        
+
         try {
           const response = await axios.get(
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBePruYxWbLAsOVswTaH0OHPyv8vx-mMcc`
@@ -1485,11 +1485,11 @@ const Navbar = ({ isStatic, text }) => {
 
             if (postalCodeComponent) {
               const postalCode = postalCodeComponent.long_name.slice(0, 4).toUpperCase();
-              
+
               // Store as clean JSON object
               const cleanPostcode = storePincodeAsCleanJSON(postalCode);
               setInputPincode(cleanPostcode);
-              
+
               break;
             }
           }
@@ -1538,7 +1538,7 @@ const Navbar = ({ isStatic, text }) => {
 
   return (
     <>
-<header
+      <header
         style={{
           position: isStatic ? "static" : "fixed",
           width: "100%",
@@ -1962,7 +1962,7 @@ const Navbar = ({ isStatic, text }) => {
                 className="btn theme-btn mt-0"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                 disabled={!title.trim()}
+                disabled={!title.trim()}
                 onClick={async (e) => {
                   await addressAdd(e);
                   handlebtnclose();

@@ -233,8 +233,6 @@ const Home = () => {
       return;
     }
 
-
-
     if (!searchTerm.trim() && !address.trim()) {
       Swal.fire({
         icon: "warning",
@@ -365,7 +363,7 @@ const Home = () => {
                     >
                       SKIP THE QUEUE, ORDER FOR COLLECTION OR DELIVERY
                     </h3>
-                    <div
+                    {/* <div
                       className="search-section d-flex flex-column align-items-center"
                       style={{ position: "relative", width: "100%" }}
                     >
@@ -412,6 +410,98 @@ const Home = () => {
                         )}
                       </div>
 
+                      {suggestions.length > 0 && (
+                        <ul
+                          className="suggestion-list"
+                          style={{
+                            listStyleType: "none",
+                            margin: "10px 0 0",
+                            padding: "0",
+                            width: "100%",
+                            backgroundColor: "#fff",
+                            border: "1px solid #ddd",
+                            borderRadius: "5px",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                            position: "absolute",
+                            top: "100%",
+                            zIndex: 10,
+                          }}
+                        >
+                          {suggestions
+                            .filter(
+                              (suggestion) =>
+                                suggestion.formattedAddress !== searchTerm
+                            )
+                            .map((suggestion, index) => (
+                              <li
+                                key={index}
+                                onClick={() =>
+                                  handleSuggestionClick(suggestion)
+                                }
+                                style={{
+                                  padding: "10px",
+                                  cursor: "pointer",
+                                  borderBottom: "1px solid #eee",
+                                  width: "100%",
+                                }}
+                              >
+                                {suggestion.formattedAddress}
+                              </li>
+                            ))}
+                        </ul>
+                      )}
+                    </div> */}
+                    <div
+                      className=""
+                      style={{ position: "relative", width: "100%" }}
+                    >
+                      <div
+                        className="d-flex align-items-center justify-content-center"
+                        style={{ width: "100%", marginTop: "20px" }}
+                      >
+                        <input
+                          type="search"
+                          className="form-control search-input"
+                          placeholder="Enter your postcode"
+                          value={`${titl ? titl + ', ' : ''}${searchTerm || address}`}
+                          onChange={handleInputChange}
+                          onFocus={() => setIsSuggestionSelected(false)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              handleSearchSubmit();
+                            }
+                          }}
+                          style={{
+                            borderRadius: isSuggestionSelected
+                              ? "30px 0px 0px 30px"
+                              : "30px 30px 30px 30px",
+                            padding: "9px 15px",
+                            border: "1px solid #ddd",
+                            flex: "none",
+                            height: "45px",
+                            width: isSuggestionSelected
+                              ? "70%" : "100%",
+                            maxWidth: "400px",
+                          }}
+                        />
+                        {isSuggestionSelected && (
+                          <button
+                            className="btn btn-primary search-button"
+                            onClick={handleSearchSubmit}
+                            style={{
+                              borderRadius: "0 30px 30px 0",
+                              padding: "11px 20px",
+                              backgroundColor: "#E84135",
+                              border: "none",
+                              height: "45px",
+                            }}
+                          >
+                            Search
+                          </button>
+                        )}
+                      </div>
                       {suggestions.length > 0 && (
                         <ul
                           className="suggestion-list"

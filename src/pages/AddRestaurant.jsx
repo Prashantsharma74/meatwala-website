@@ -12,7 +12,6 @@ const AddRestaurant = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div>
       <>
         <Helmet>
           <title>
@@ -356,7 +355,6 @@ const AddRestaurant = () => {
         {/* swiper js */}
         {/* script js */}
       </>
-    </div>
   );
 };
 

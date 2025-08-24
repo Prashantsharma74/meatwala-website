@@ -6,11 +6,12 @@ import { loginApi } from "../utils/api";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 import FooterMobileMenu from "../components/FooterMobileMenu";
-import{ setCookie, getCookie, deleteCookie } from '../components/Cookie'
+import { setCookie, getCookie, deleteCookie } from '../components/Cookie'
 
 const OTP = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [submitting, setSubmitting] = useState(false);
   const {
     loading,
     otp: storedOtp,
@@ -57,14 +58,53 @@ const OTP = () => {
     setEnteredOtp(result);
   };
 
+  // const checkotp = async (e) => {
+  //   e.preventDefault();
+  //   if (storedOtp === enterdOtp) {
+  //     const data = {
+  //       mobileno: mobileNumber,
+  //     };
+  //     const res = await loginApi(data);
+  //     console.log(res,"ressssss")
+  //     if (res?.returnmsg == "Login Successfully") {
+  //       dispatch(updateKeyValue({ key: "user", value: res?.custinfo }));
+  //       localStorage.setItem("user", JSON.stringify(res?.custinfo));
+  //       setCookie("user", JSON.stringify(res?.custinfo));
+  //       if (res?.custaddress.length != 0) {
+  //         dispatch(updateKeyValue({ key: "userAddress", value: res?.custaddress[0] }));
+  //         localStorage.setItem("userAddress", JSON.stringify(res?.custaddress[0]));
+  //         setCookie("userAddress", JSON.stringify(res?.custaddress[0]));
+  //       }
+  //       navigate("/shop");
+  //     }
+  //     if (res?.returnmsg == "Register Successfully") {
+  //       dispatch(updateKeyValue({ key: "user", value: res?.custinfo }));
+  //       localStorage.setItem("user", JSON.stringify(res?.custinfo));
+  //       setCookie("user", JSON.stringify(res?.custinfo));
+  //       toast.success("Register Successfully")
+  //       // navigate("/location");
+  //       navigate("/shop");
+  //     }
+
+  //     console.log("res", res);
+  //   } else {
+  //     toast.error("Invalid OTP")
+  //     // alert("Invalid OTP");
+  //   }
+  // };
+
   const checkotp = async (e) => {
     e.preventDefault();
-    if (storedOtp === enterdOtp) {
-      const data = {
-        mobileno: mobileNumber,
-      };
+    if (storedOtp !== enterdOtp) {
+      toast.error("Invalid OTP");
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const data = { mobileno: mobileNumber };
       const res = await loginApi(data);
-      console.log(res,"ressssss")
+
       if (res?.returnmsg == "Login Successfully") {
         dispatch(updateKeyValue({ key: "user", value: res?.custinfo }));
         localStorage.setItem("user", JSON.stringify(res?.custinfo));
@@ -75,20 +115,19 @@ const OTP = () => {
           setCookie("userAddress", JSON.stringify(res?.custaddress[0]));
         }
         navigate("/shop");
-      }
-      if (res?.returnmsg == "Register Successfully") {
+      } else if (res?.returnmsg == "Register Successfully") {
         dispatch(updateKeyValue({ key: "user", value: res?.custinfo }));
         localStorage.setItem("user", JSON.stringify(res?.custinfo));
         setCookie("user", JSON.stringify(res?.custinfo));
-        toast.success("Register Successfully")
-        // navigate("/location");
+        toast.success("Register Successfully");
         navigate("/shop");
+      } else {
+        toast.error(res?.returnmsg || "Verification failed");
       }
-
-      console.log("res", res);
-    } else {
-      toast.error("Invalid OTP")
-      // alert("Invalid OTP");
+    } catch (err) {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -131,31 +170,48 @@ const OTP = () => {
                             {otp.map((digit, index) => (
                               <input
                                 key={index}
-                                type="number"
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                                maxLength={1}
                                 className="otp__digit otp__field__1"
-                                placeholder={0}
-                                id="five2"
-                                maxLength="1"
                                 value={digit}
-                                onChange={(e) =>
-                                  handleInputChange(index, e.target.value)
-                                }
+                                onChange={(e) => handleInputChange(index, e.target.value.replace(/\D/g, ""))}
                                 onPaste={handleInputPaste}
-                                ref={(input) =>
-                                  (otpInputs.current[index] = input)
-                                }
+                                ref={(el) => (otpInputs.current[index] = el)}
+                                autoFocus={index === 0}
                               />
                             ))}
                           </div>
                         </div>
                         <div className="form-group mt-3">
-                          <button
+                          {/* <button
                             onClick={checkotp}
                             disabled={loading}
                             type="submit"
                             className="btn theme-btn w-100 mt-4"
                           >
                             Continue
+                          </button> */}
+                          <button
+                            onClick={checkotp}
+                            disabled={loading || submitting}
+                            type="submit"
+                            className="btn theme-btn w-100 mt-4 d-inline-flex align-items-center justify-content-center"
+                            aria-busy={loading || submitting}
+                            aria-live="polite"
+                          >
+                            {loading || submitting ? (
+                              <>
+                                <span
+                                  className="spinner-border spinner-border-sm me-2"
+                                  role="status"
+                                  aria-hidden="true"
+                                />
+                                Verifying…
+                              </>
+                            ) : (
+                              "Continue"
+                            )}
                           </button>
                         </div>
                       </div>
@@ -169,10 +225,10 @@ const OTP = () => {
       </section>
       {/* login page end */}
       {/* footer section starts */}
-      <Footer/>
+      <Footer />
       {/* footer section end */}
       {/* mobile fix menu start */}
-      <FooterMobileMenu/>
+      <FooterMobileMenu />
 
       {/* mobile fix menu end */}
       {/* location offcanvas start */}
