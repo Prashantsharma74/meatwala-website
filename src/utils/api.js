@@ -303,6 +303,7 @@ export const categorylistRestaurant = async (data) => {
         "Content-Type": "application/json",
       },
     });
+    console.log("Res", res)
     return res.data;
   } catch (error) {
     console.error("Error fetching restaurants:", error);
