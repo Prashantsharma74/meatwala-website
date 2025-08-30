@@ -318,56 +318,112 @@ const Home = () => {
     handleSearchSubmit(suggestion);
   };
 
+  // const handleSearchSubmit = async (clickedSuggestion) => {
+  //   if (isProcessing) return; // prevent double runs
+
+  //   const choice =
+  //     clickedSuggestion ||
+  //     selectedSuggestion ||
+  //     suggestions.find((s) => s.formattedAddress === searchTerm);
+
+  //   if (!choice && !address.trim()) {
+  //     Swal.fire({
+  //       icon: "warning",
+  //       title: "Enter your postcode",
+  //       text: "Please enter and select a valid address from suggestions.",
+  //       confirmButtonColor: "rgb(232, 65, 53)",
+  //     });
+  //     return;
+  //   }
+
+  //   try {
+  //     setIsProcessing(true);
+  //     const areRestaurantsAvailable = await fetchRestaurants(
+  //       choice.lat.toString(),
+  //       choice.lng.toString(),
+  //       choice.postcode
+  //     );
+
+  //     if (!areRestaurantsAvailable) {
+  //       Swal.fire({
+  //         icon: "info",
+  //         title: "Coming Soon!",
+  //         text: "We’re not in your area yet, but launching soon. Stay tuned!",
+  //         confirmButtonColor: "rgb(232, 65, 53)",
+  //         iconColor: "rgb(232, 65, 53)",
+  //       });
+  //     } else {
+  //       const modal = new bootstrap.Modal(document.getElementById("address-details"));
+  //       modal.show();
+  //     }
+  //   } catch (error) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Oops...",
+  //       text: "An error occurred while opening the modal. Please try again.",
+  //       confirmButtonColor: "rgb(232, 65, 53)",
+  //     });
+  //   } finally {
+  //     setIsProcessing(false);
+  //   }
+  // };
+
   const handleSearchSubmit = async (clickedSuggestion) => {
-    if (isProcessing) return; // prevent double runs
+  if (isProcessing) return;
 
-    const choice =
-      clickedSuggestion ||
-      selectedSuggestion ||
-      suggestions.find((s) => s.formattedAddress === searchTerm);
+  const choice =
+    clickedSuggestion ||
+    selectedSuggestion ||
+    suggestions.find((s) => s.formattedAddress === searchTerm);
 
-    if (!choice && !address.trim()) {
+  // 🚧 Always require a choice; do NOT fall back to `address` here
+  if (!choice) {
+    Swal.fire({
+      icon: "warning",
+      title: "Select an address",
+      text: "Please select an address from the suggestions before searching.",
+      confirmButtonColor: "rgb(232, 65, 53)",
+    });
+    return;
+  }
+
+  try {
+    setIsProcessing(true);
+
+    const areRestaurantsAvailable = await fetchRestaurants(
+      choice.lat.toString(),
+      choice.lng.toString(),
+      choice.postcode
+    );
+
+    if (!areRestaurantsAvailable) {
       Swal.fire({
-        icon: "warning",
-        title: "Enter your postcode",
-        text: "Please enter and select a valid address from suggestions.",
+        icon: "info",
+        title: "Coming Soon!",
+        text: "We’re not in your area yet, but launching soon. Stay tuned!",
         confirmButtonColor: "rgb(232, 65, 53)",
+        iconColor: "rgb(232, 65, 53)",
       });
-      return;
+    } else {
+      const modalEl = document.getElementById("address-details");
+      if (!modalEl) throw new Error("Modal element #address-details not found");
+
+      // safer than new Modal(...): reuse or create
+      const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modal.show();
     }
-
-    try {
-      setIsProcessing(true);
-      const areRestaurantsAvailable = await fetchRestaurants(
-        choice.lat.toString(),
-        choice.lng.toString(),
-        choice.postcode
-      );
-
-      if (!areRestaurantsAvailable) {
-        Swal.fire({
-          icon: "info",
-          title: "Coming Soon!",
-          text: "We’re not in your area yet, but launching soon. Stay tuned!",
-          confirmButtonColor: "rgb(232, 65, 53)",
-          iconColor: "rgb(232, 65, 53)",
-        });
-      } else {
-        const modal = new bootstrap.Modal(document.getElementById("address-details"));
-        modal.show();
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "An error occurred while opening the modal. Please try again.",
-        confirmButtonColor: "rgb(232, 65, 53)",
-      });
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
+  } catch (error) {
+    console.error("Open modal error:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "An error occurred while opening the modal. Please try again.",
+      confirmButtonColor: "rgb(232, 65, 53)",
+    });
+  } finally {
+    setIsProcessing(false);
+  }
+};
 
   const handlebtnclose = () => {
     const modal = bootstrap.Modal.getInstance(
@@ -376,6 +432,11 @@ const Home = () => {
     if (modal) {
       modal.hide(); // Properly hide the modal and remove the backdrop
     }
+  };
+
+  const onSubmitSearch = async (e) => {
+    e.preventDefault();
+    await handleSearchSubmit();
   };
 
   useEffect(() => {
@@ -456,7 +517,46 @@ const Home = () => {
                         className="d-flex align-items-center justify-content-center"
                         style={{ width: "100%", marginTop: "20px" }}
                       >
-                        <input
+                        <form
+                          onSubmit={onSubmitSearch}
+                          className="d-flex align-items-center justify-content-center"
+                          style={{ width: "100%", marginTop: "20px" }}
+                        >
+                          <input
+                            type="search"
+                            className="form-control search-input"
+                            placeholder="Enter your postcode"
+                            value={`${titl ? titl + ', ' : ''}${searchTerm || address}`}
+                            onChange={handleInputChange}
+                            onFocus={() => setIsSuggestionSelected(false)}
+                            style={{
+                              borderRadius: isSuggestionSelected ? "30px 0 0 30px" : "30px",
+                              padding: "9px 15px",
+                              border: "1px solid #ddd",
+                              flex: "none",
+                              height: "45px",
+                              width: isSuggestionSelected ? "70%" : "100%",
+                              maxWidth: "400px",
+                            }}
+                          />
+
+                          {isSuggestionSelected && (
+                            <button
+                              type="submit"
+                              className="btn btn-primary search-button"
+                              style={{
+                                borderRadius: "0 30px 30px 0",
+                                padding: "11px 20px",
+                                backgroundColor: "#E84135",
+                                border: "none",
+                                height: "45px",
+                              }}
+                            >
+                              Search
+                            </button>
+                          )}
+                        </form>
+                        {/* <input
                           type="search"
                           className="form-control search-input"
                           placeholder="Enter your postcode"
@@ -471,7 +571,7 @@ const Home = () => {
                           // }}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                              e.preventDefault(); // don't manually submit
+                              e.preventDefault();
                             }
                           }}
                           style={{
@@ -501,23 +601,7 @@ const Home = () => {
                           >
                             Search
                           </button>
-                          // <button
-                          //   className="btn btn-primary search-button"
-                          //   type="button"
-                          //   aria-disabled="true"
-                          //   style={{
-                          //     borderRadius: "0 30px 30px 0",
-                          //     padding: "11px 20px",
-                          //     backgroundColor: "#E84135",
-                          //     border: "none",
-                          //     height: "45px",
-                          //     opacity: 0.7,           // subtle visual hint it's inactive
-                          //     pointerEvents: "none",  // no click action
-                          //   }}
-                          // >
-                          //   Search
-                          // </button>
-                        )}
+                        )} */}
                       </div>
                       {suggestions.length > 0 && (
                         <ul

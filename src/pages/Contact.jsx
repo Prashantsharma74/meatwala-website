@@ -25,13 +25,52 @@ const Contact = () => {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState({ type: "", msg: "" });
 
+  // NEW:
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, []);
 
+  const validateField = (key, value) => {
+    switch (key) {
+      case "firstName":
+        if (!value.trim()) return "First name is required.";
+        return "";
+      case "lastName":
+        if (!value.trim()) return "Last name is required.";
+        return "";
+      case "email":
+        if (!value.trim()) return "Email is required.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          return "Please enter a valid email.";
+        return "";
+      case "phone":
+        if (!value.trim()) return "Phone number is required.";
+        if (!/^[0-9+()\-\s]{7,20}$/.test(value))
+          return "Please enter a valid phone number.";
+        return "";
+      case "message":
+        if (value.trim().length < 10)
+          return "Message should be at least 10 characters.";
+        return "";
+      default:
+        return "";
+    }
+  };
+
+  const validateAll = (f) => {
+    const next = {};
+    Object.entries(f).forEach(([k, v]) => {
+      const err = validateField(k, v);
+      if (err) next[k] = err;
+    });
+    return next;
+  };
+
   const onChange = (e) => {
     const { id, value } = e.target;
-    // Map input ids to state keys
     const map = {
       inputFirstname: "firstName",
       inputLastname: "lastName",
@@ -39,30 +78,128 @@ const Contact = () => {
       inputPhone: "phone",
       inputtext: "message",
     };
-    setForm((f) => ({ ...f, [map[id] || id]: value }));
+    const key = map[id] || id;
+
+    setForm((f) => {
+      const next = { ...f, [key]: value };
+      // live-validate edited field
+      setErrors((prev) => ({ ...prev, [key]: validateField(key, value) }));
+      return next;
+    });
   };
 
-  const validate = () => {
-    // Basic validation
-    if (!form.firstName.trim()) return "First name is required.";
-    if (!form.lastName.trim()) return "Last name is required.";
-    if (!form.email.trim()) return "Email is required.";
-    // Simple email regex
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      return "Please enter a valid email.";
-    if (!form.phone.trim()) return "Phone number is required.";
-    if (form.message.trim().length < 10)
-      return "Message should be at least 10 characters.";
-    return null;
+  const onBlur = (e) => {
+    const { id } = e.target;
+    const map = {
+      inputFirstname: "firstName",
+      inputLastname: "lastName",
+      inputEmail: "email",
+      inputPhone: "phone",
+      inputtext: "message",
+    };
+    const key = map[id] || id;
+    setTouched((t) => ({ ...t, [key]: true }));
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setStatus({ type: "", msg: "" });
+
+  //   const err = validate();
+  //   if (err) {
+  //     setStatus({ type: "error", msg: err });
+  //     return;
+  //   }
+
+  //   setSubmitting(true);
+
+  //   const payload = {
+  //     firstname: form.firstName,
+  //     lastname: form.lastName,
+  //     email: form.email,
+  //     phone: form.phone,
+  //     request: form.message,
+  //   };
+
+  //   const controller = new AbortController();
+  //   const t = setTimeout(() => controller.abort(), 20000);
+
+  //   try {
+  //     const res = await fetch(API_URL, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json", // ✅ keep JSON
+  //         "Accept": "application/json",
+  //       },
+  //       body: JSON.stringify(payload),
+  //       signal: controller.signal,
+  //     });
+
+  //     clearTimeout(t);
+
+  //     let data = null;
+  //     try {
+  //       data = await res.json();
+  //     } catch {
+  //       // ignore if not JSON
+  //     }
+
+  //     if (res.ok) {
+  //       setStatus({
+  //         type: "success",
+  //         msg:
+  //           (data && (data.message || data.msg)) ||
+  //           "Thanks! Your message has been sent.",
+  //       });
+  //       setForm({
+  //         firstName: "",
+  //         lastName: "",
+  //         email: "",
+  //         phone: "",
+  //         message: "",
+  //       });
+  //     } else {
+  //       const serverMsg =
+  //         (data && (data.error || data.message || data.msg)) ||
+  //         `Request failed with status ${res.status}.`;
+  //       setStatus({ type: "error", msg: serverMsg });
+  //     }
+  //   } catch (err) {
+  //     const msg =
+  //       err.name === "AbortError"
+  //         ? "Request took too long. Please try again."
+  //         : "Network error. Please check your connection and try again.";
+  //     setStatus({ type: "error", msg });
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus({ type: "", msg: "" });
 
-    const err = validate();
-    if (err) {
-      setStatus({ type: "error", msg: err });
+    const nextErrors = validateAll(form);
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      setTouched({
+        firstName: true,
+        lastName: true,
+        email: true,
+        phone: true,
+        message: true,
+      });
+      // scroll to first error
+      const firstKey = Object.keys(nextErrors)[0];
+      const firstId = {
+        firstName: "inputFirstname",
+        lastName: "inputLastname",
+        email: "inputEmail",
+        phone: "inputPhone",
+        message: "inputtext",
+      }[firstKey];
+      const el = document.getElementById(firstId);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
 
@@ -82,10 +219,7 @@ const Contact = () => {
     try {
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json", // ✅ keep JSON
-          "Accept": "application/json",
-        },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
@@ -93,26 +227,16 @@ const Contact = () => {
       clearTimeout(t);
 
       let data = null;
-      try {
-        data = await res.json();
-      } catch {
-        // ignore if not JSON
-      }
+      try { data = await res.json(); } catch { }
 
       if (res.ok) {
         setStatus({
           type: "success",
-          msg:
-            (data && (data.message || data.msg)) ||
-            "Thanks! Your message has been sent.",
+          msg: (data && (data.message || data.msg)) || "Thanks! Your message has been sent.",
         });
-        setForm({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          message: "",
-        });
+        setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+        setErrors({});
+        setTouched({});
       } else {
         const serverMsg =
           (data && (data.error || data.message || data.msg)) ||
@@ -148,7 +272,9 @@ const Contact = () => {
           icon: "success",
           title: "Success",
           text: status.msg,
+          confirmButtonColor: "#E84135"
         });
+
       } else if (status.type === "error") {
         Swal.fire({
           icon: "error",
@@ -236,7 +362,7 @@ const Contact = () => {
                     <label htmlFor="inputFirstname" className="form-label mt-0">
                       First Name
                     </label>
-                    <input
+                    {/* <input
                       type="text"
                       className="form-control"
                       id="inputFirstname"
@@ -245,7 +371,19 @@ const Contact = () => {
                       disabled={submitting}
                       placeholder="Enter your fist name"
                       required
+                    /> */}
+                    <input
+                      type="text"
+                      id="inputFirstname"
+                      className={`form-control ${touched.firstName && errors.firstName ? "is-invalid" : ""}`}
+                      value={form.firstName}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      placeholder="Enter your first name"
                     />
+                    {touched.firstName && errors.firstName && (
+                      <div className="invalid-feedback">{errors.firstName}</div>
+                    )}
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="inputLastname" className="form-label mt-0">
@@ -253,14 +391,21 @@ const Contact = () => {
                     </label>
                     <input
                       type="text"
-                      className="form-control"
+                      className={`form-control ${touched.lastName && errors.lastName ? "is-invalid" : ""}`}
                       id="inputLastname"
                       placeholder="Enter your last name"
                       value={form.lastName}
                       onChange={onChange}
+                      onBlur={onBlur}
                       disabled={submitting}
                       required
+                      aria-invalid={!!(touched.lastName && errors.lastName)}
+                      aria-describedby="err-lastName"
                     />
+                    {touched.lastName && errors.lastName && (
+                      <div id="err-lastName" className="invalid-feedback">{errors.lastName}</div>
+                    )}
+
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="inputEmail" className="form-label">
@@ -268,14 +413,21 @@ const Contact = () => {
                     </label>
                     <input
                       type="email"
-                      className="form-control"
+                      className={`form-control ${touched.email && errors.email ? "is-invalid" : ""}`}
                       id="inputEmail"
                       placeholder="Enter your email"
                       value={form.email}
                       onChange={onChange}
+                      onBlur={onBlur}
                       disabled={submitting}
                       required
+                      aria-invalid={!!(touched.email && errors.email)}
+                      aria-describedby="err-email"
                     />
+                    {touched.email && errors.email && (
+                      <div id="err-email" className="invalid-feedback">{errors.email}</div>
+                    )}
+
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="inputPhone" className="form-label">
@@ -283,30 +435,43 @@ const Contact = () => {
                     </label>
                     <input
                       type="tel"
-                      className="form-control"
+                      className={`form-control ${touched.phone && errors.phone ? "is-invalid" : ""}`}
                       id="inputPhone"
                       placeholder="Enter your number"
                       value={form.phone}
                       onChange={onChange}
+                      onBlur={onBlur}
                       disabled={submitting}
                       required
+                      aria-invalid={!!(touched.phone && errors.phone)}
+                      aria-describedby="err-phone"
                     />
+                    {touched.phone && errors.phone && (
+                      <div id="err-phone" className="invalid-feedback">{errors.phone}</div>
+                    )}
+
                   </div>
                   <div className="col-md-12">
                     <label htmlFor="inputtext" className="form-label">
                       How Can We Help You?
                     </label>
                     <textarea
-                      className="form-control"
+                      className={`form-control ${touched.message && errors.message ? "is-invalid" : ""}`}
                       id="inputtext"
                       rows={3}
-                      placeholder="Hi there, I would like to...."
-                      defaultValue={""}
+                      placeholder="Hi there, I would like to..."
                       value={form.message}
                       onChange={onChange}
+                      onBlur={onBlur}
                       disabled={submitting}
                       required
+                      aria-invalid={!!(touched.message && errors.message)}
+                      aria-describedby="err-message"
                     />
+                    {touched.message && errors.message && (
+                      <div id="err-message" className="invalid-feedback">{errors.message}</div>
+                    )}
+
                   </div>
                   <div className="buttons d-flex align-items-center justify-content-end gap-3">
                     {/* <Link href="contact.html.html" className="btn gray-btn mt-0">

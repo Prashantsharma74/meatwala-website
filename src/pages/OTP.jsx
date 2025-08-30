@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 import FooterMobileMenu from "../components/FooterMobileMenu";
 import { setCookie, getCookie, deleteCookie } from '../components/Cookie'
+import Navbar from "../components/Navbar";
 
 const OTP = () => {
   const dispatch = useDispatch();
@@ -138,7 +139,7 @@ const OTP = () => {
   return (
     <>
       {/* Header section start */}
-      <header>
+      {/* <header>
         <div className="container">
           <nav className="navbar navbar-expand-lg p-0">
             <Link onClick={clearOtpState} to={"/login"}>
@@ -146,7 +147,8 @@ const OTP = () => {
             </Link>
           </nav>
         </div>
-      </header>
+      </header> */}
+      <Navbar />
       {/* login page start */}
       <section className="section-b-space pt-120">
         <div className="container mt-5">

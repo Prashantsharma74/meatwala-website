@@ -43,16 +43,39 @@ const Footer = ({ text }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // const toggleSection = (section) => {
+  //   setIsOpen((prev) => {
+  //     const newState = {
+  //       legal: false,
+  //       cuisine: false,
+  //       partners: false,
+  //       customerService: false,
+  //     };
+  //     newState[section] = true;
+  //     return newState;
+  //   });
+  // };
+
   const toggleSection = (section) => {
     setIsOpen((prev) => {
-      const newState = {
+      const currentlyOpen = prev[section];
+      // close all if the clicked one is already open
+      if (currentlyOpen) {
+        return {
+          legal: false,
+          cuisine: false,
+          partners: false,
+          customerService: false,
+        };
+      }
+      // otherwise open the clicked one and close others
+      return {
         legal: false,
         cuisine: false,
         partners: false,
         customerService: false,
+        [section]: true,
       };
-      newState[section] = true;
-      return newState;
     });
   };
 
@@ -357,9 +380,8 @@ const Footer = ({ text }) => {
                     {cities.map((city) => (
                       <li key={city.cityid}>
                         <Link
-                          to={`/near-me/${encodeURIComponent(city.cityname)}/${
-                            city.cityid
-                          }`}
+                          to={`/near-me/${encodeURIComponent(city.cityname)}/${city.cityid
+                            }`}
                           onClick={() => handleCityClick(city.cityname)}
                         >
                           <h6>{city.cityname}</h6>
@@ -449,11 +471,13 @@ const Footer = ({ text }) => {
                         </li> */}
                       </>
                     ) : null}
-                    <li>
-                      <Link to={"/setting"}>
-                        <h6>Account</h6>
-                      </Link>
-                    </li>
+                    {
+                      isUserLoggedIn ? (
+                        <li>
+                          <Link to={"/setting"}>
+                            <h6>Account</h6>
+                          </Link>
+                        </li>) : null}
                     <li>
                       <Link to={"/recipes"}>
                         <h6>Recipes</h6>

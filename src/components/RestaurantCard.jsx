@@ -8,7 +8,6 @@ import defaults from "../assets/128px-DefaultImage.png";
 import { useSelector } from "react-redux";
 
 const RestaurantCard = ({ item }) => {
-  // console.log(item.imagename,"itmessss");
   const navigate = useNavigate();
   const activeTab = useSelector((store) => store.User.activeTab);
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -22,22 +21,8 @@ const RestaurantCard = ({ item }) => {
     }
   }, [item]);
 
-  // const favrite = async () => {
-  //   const data = {
-  //     custid: storedUser?.userid,
-  //     restid: Favres,
-  //     isfav: fav == "1" ? "0" : "1"
-  //   }
-  //   const response = await addFav(data);
-  //   if (response?.status == "1") {
-  //     getRestaurant()
-  //   }
-  //   console.log(response, "check fav dat")
-  // }
-
   const favrite = async () => {
     if (!storedUser?.userid) {
-      // Show SweetAlert dialog
       Swal.fire({
         title: "Login Required",
         text: "Please log in to add favorites.",
@@ -57,14 +42,13 @@ const RestaurantCard = ({ item }) => {
     const data = {
       custid: storedUser?.userid,
       restid: Favres,
-      isfav: fav === "1" ? "0" : "1", // Toggle the favorite status
+      isfav: fav === "1" ? "0" : "1",
     };
 
     const response = await addFav(data);
     if (response?.status === "1") {
-      // Update the local state to reflect the new favorite status immediately
       setFav(data.isfav);
-      getRestaurant(); // Optionally refetch restaurants if needed
+      getRestaurant();
     }
   };
   const imageSrc =
@@ -75,8 +59,7 @@ const RestaurantCard = ({ item }) => {
     <div className="swiper-slide">
       <div className="vertical-product-box product-style-2">
         <div className="vertical-product-box-img">
-          {/* <Link href="menu-listing.html"> */}
-            <Link
+          <Link
             to={
               item?.isonline === "1"
                 ? `/store/${item?.pkid}`
@@ -84,12 +67,22 @@ const RestaurantCard = ({ item }) => {
             }
             state={{ restaurant: item }}
           >
-            <img
+            {/* <img
               className={`product-img-top w-100 bg-img bg-size fix-image-size ${
                 item?.isonline === "1" ? "" : "grayscale-img"
               }`}
               src={imageSrc}
               alt="Product"
+            /> */}
+            <img
+              className="product-img-top w-100 bg-img bg-size fix-image-size"
+              src={imageSrc}
+              alt="Product"
+              style={{
+                filter: item?.isonline === "1"
+                  ? "contrast(0.7) saturate(0.7)" 
+                  : "contrast(0.7) saturate(0.7)",
+              }}
             />
           </Link>
           <button className="wishlist-close" onClick={favrite}>
@@ -110,7 +103,6 @@ const RestaurantCard = ({ item }) => {
               <h4 className="text-white">Not Taking Orders</h4>
             </div>
           )}
-          {/* </Link> */}
         </div>
         <Link
           to={
@@ -141,10 +133,6 @@ const RestaurantCard = ({ item }) => {
                 <h4 className="vertical-product-title">{item?.name}</h4>
               </Link>
               <h6 className="rating-star">
-                {/* <span className="star">
-                  <i className="ri-star-s-fill" />
-                </span>
-                {item?.hyginerating} */}
                 <span className="">
                   <i className="ri-star-s-fill text-warning" />
                 </span>{" "}
@@ -152,11 +140,9 @@ const RestaurantCard = ({ item }) => {
               </h6>
             </div>
             <h6 className="food-items">
-              {`${item.cat1 ? item.cat1 : "ㅤ"}${
-                item.cat2 ? " • " + item.cat2 : ""
-              }${item.cat3 ? " • " + item.cat3 : ""}`}
+              {`${item.cat1 ? item.cat1 : "ㅤ"}${item.cat2 ? " • " + item.cat2 : ""
+                }${item.cat3 ? " • " + item.cat3 : ""}`}
             </h6>
-            {/* <i className="fa fa-circle ml-2 me-2" aria-hidden="true" /> */}
             <ul className="details-list">
               <li>
                 <i className="ri-map-pin-fill theme-color" /> {item?.distance}{" "}

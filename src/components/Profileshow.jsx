@@ -261,6 +261,7 @@ const Profileshow = ({ selected }) => {
             text: "You have been successfully logged out.",
             icon: "success",
             confirmButtonText: "OK",
+            confirmButtonColor: "rgb(232, 65, 53)",
           }).then(() => {
             localStorage.removeItem("user"); // Clear user data from local storage
             navigate("/login"); // Navigate to login page only after successful logout
@@ -325,10 +326,10 @@ const Profileshow = ({ selected }) => {
             <i className="ri-question-line" />
             <Link to={"/loyaltypoint"}>Loyalty</Link>
           </li>
-          <li className={selected === "FAQ" ? `active` : ""}>
+          {/* <li className={selected === "FAQ" ? `active` : ""}>
             <FcFaq />
             <Link to={"/faq"}>FAQ</Link>
-          </li>
+          </li> */}
           <li className={selected === "support" ? `active` : ""}>
             <MdOutlineSupportAgent />
             <Link to={"/support"}>Support</Link>

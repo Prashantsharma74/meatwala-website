@@ -42,8 +42,7 @@ const Cookie = () => {
           A “data controller” is a person or organisation who alone or jointly
           determines the purposes for which, and the manner in which, any
           personal data is, or is likely to be, processed. In this sense,
-          Meatwala High Wycombe Ltd, 6 Shelburne Court, High Wycombe, England,
-          HP12 3NH, “Meatwala”, "we", "us", "our" is the data controller. If you
+           <strong> Meatwala Group Ltd</strong>, “Meatwala”, "we", "us", "our" is the data controller. If you
           have any questions about cookies or about data protection at
           [Meatwala] in general, you can reach us by email using{" "}
           <a href="mailto:contact@meatwala.co.uk">

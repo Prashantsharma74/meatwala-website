@@ -7,6 +7,8 @@ import "react-phone-input-2/lib/style.css";
 import { toast, ToastContainer } from "react-toastify";
 import FooterMobileMenu from "../components/FooterMobileMenu";
 import { Helmet } from "react-helmet-async";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -46,6 +48,7 @@ const Login = () => {
           content="Sign in to your Meatwala account to track your halal meat orders, manage preferences, and enjoy seamless shopping."
         />
       </Helmet>
+      <Navbar />
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -123,6 +126,7 @@ const Login = () => {
       </section>
       <ToastContainer />
       {/* login page end */}
+      <Footer />
       <FooterMobileMenu />
     </>
   );
