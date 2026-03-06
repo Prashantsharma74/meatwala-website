@@ -662,6 +662,7 @@ const Home = () => {
                         style={{ width: "100%" }}
                       >
                         <form
+                          action="#"
                           onSubmit={(e) => {
                             e.preventDefault();
                             onSubmitSearch(e);
