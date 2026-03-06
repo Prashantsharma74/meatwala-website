@@ -1,0 +1,12 @@
+# netlify.toml
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  CI = "false"   # avoids CRA failing on warnings
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,0 +1,46 @@
+.contain {
+    background-color: BLACK;
+    border-radius: 8px;
+    padding: 40px 69px;
+  }
+  
+.contain  h2 {
+    color: #ffffff;
+    font-weight: bold;
+        width: 80%;
+        font-size: calc(39px + 10 * (100vw - 320px) / 1600);
+        margin-bottom: 0;
+  }
+  
+  .form-label {
+    color: #f5f5f5;
+  }
+  
+  .form-control {
+    background-color: #ffffff; /* White background for input fields */
+    color: #000000;           /* Black text for readability */
+    border: 1px solid #444;   /* Subtle border for input fields */
+    border-radius: 4px;       /* Optional: Slightly rounded corners */
+  }
+  
+  .form-control::placeholder {
+    color: #888888;           /* Placeholder text color (grey) */
+  }
+  
+  
+  .btn-primary {
+    background-color: rgb(232, 65, 53);
+    border: none;
+  }
+  
+  .logo-section {
+    position: sticky;
+    top: 80px; 
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+  }
+  

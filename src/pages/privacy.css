@@ -1,0 +1,89 @@
+/* ===== Page frame ===== */
+.containers {
+  /* keep your inline font if you like Poppins;
+     otherwise uncomment next line for the same system font as Terms */
+  /* font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; */
+
+  background: #fff;                 /* white page like the reference */
+  padding: 32px 16px 60px;          /* breathing room around the centered column */
+  color: #111;
+}
+
+/* Centered readable column */
+.containers > *:first-child,
+.containers h1,
+.containers h2,
+.containers h3,
+.containers p,
+.containers ul {
+  max-width: 720px;                 /* ~60–70ch for comfy reading */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== Title & meta ===== */
+.containers h1 {
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 6px auto 12px;
+  font-size: clamp(32px, 6vw, 48px);   /* big headline */
+}
+
+.containers p:first-of-type {
+  /* if you show a "Last updated" line at top, style it like this:
+     (remove if not needed) */
+  /* color: #666; */
+  /* font-size: 14px; */
+}
+
+/* ===== Section spacing ===== */
+.containers h2 {
+  margin: 36px auto 10px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  font-size: clamp(22px, 4.5vw, 36px); /* large bold section headers */
+  color: #111;
+}
+
+.containers h3 {
+  margin: 28px auto 8px;
+  font-weight: 700;
+  font-size: clamp(18px, 3.5vw, 22px);
+}
+
+/* ===== Body text ===== */
+.containers p,
+.containers li {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+  margin: 0 auto 14px;
+}
+
+/* Lists */
+.containers ul {
+  margin: 8px auto 16px;
+  padding-left: 20px;               /* default bullets; remove d-flex overrides */
+}
+.containers li { margin: 6px 0; }
+
+/* Links */
+.containers a {
+  color: #111;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.containers a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Optional: subtle callout style you can reuse if needed */
+.pp-callout {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 14px 16px;
+}
