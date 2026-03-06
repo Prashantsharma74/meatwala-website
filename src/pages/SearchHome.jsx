@@ -140,7 +140,8 @@ const Home = () => {
   const fetchSuggestions = async (query) => {
     try {
       const response = await axios.get(
-        `https://partnermeatwala.com/api/customer/geocode?place=${query}`,
+        // `https://partnermeatwala.com/api/customer/geocode?place=${query}`,
+        `https://partnermeatwala.com/api/customer/geocode?place=${encodeURIComponent(query)}`,
       );
       if (response.data && response.data.results) {
         const results = response.data.results.map((result) => {
@@ -516,9 +517,12 @@ const Home = () => {
     setShowAddressModal(false);
   };
 
-  const onSubmitSearch = async (e) => {
-    e.preventDefault();
+  // const onSubmitSearch = async (e) => {
+  //   e.preventDefault();
 
+  const onSubmitSearch = async (e) => {
+    if (e) e.preventDefault();
+  
     if (searchTerm) {
       const addressNumber = extractNumberFromAddress(searchTerm);
       if (addressNumber) {
@@ -661,12 +665,15 @@ const Home = () => {
                         className="d-flex align-items-center justify-content-center"
                         style={{ width: "100%" }}
                       >
-                        <form
-                          action="#"
+                        {/* <div
                           onSubmit={(e) => {
                             e.preventDefault();
                             onSubmitSearch(e);
                           }}
+                          className="d-flex align-items-center justify-content-center"
+                          style={{ width: "100%" }}
+                        > */}
+                        <div
                           className="d-flex align-items-center justify-content-center"
                           style={{ width: "100%" }}
                         >
@@ -718,7 +725,8 @@ const Home = () => {
 
                           {isSuggestionSelected && (
                             <button
-                              type="submit"
+                              type="button"
+                              onClick={onSubmitSearch}
                               className="btn btn-primary search-button"
                               style={{
                                 borderRadius: "0 30px 30px 0",
@@ -731,7 +739,7 @@ const Home = () => {
                               Search
                             </button>
                           )}
-                        </form>
+                        </div>
                       </div>
                       {/* {suggestions.length > 0 && ( */}
                       {suggestions.length > 0 && windowWidth > 768 && (
