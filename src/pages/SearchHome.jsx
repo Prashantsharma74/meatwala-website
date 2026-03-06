@@ -334,8 +334,11 @@ const Home = () => {
     localStorage.setItem("pincode", JSON.stringify(pincode));
     dispatch(setPincode(pincode));
 
+    // const addressNumber =
+    //   title ||
+    //   extractNumberFromAddress(rawInput) ||
+    //   extractNumberFromAddress(suggestion.formattedAddress);
     const addressNumber =
-      title ||
       extractNumberFromAddress(rawInput) ||
       extractNumberFromAddress(suggestion.formattedAddress);
 
@@ -464,8 +467,11 @@ const Home = () => {
       //   return;
       // }
 
+      // const addressNumber =
+      //   title ||
+      //   extractNumberFromAddress(rawInput) ||
+      //   extractNumberFromAddress(choice.formattedAddress);
       const addressNumber =
-        title ||
         extractNumberFromAddress(rawInput) ||
         extractNumberFromAddress(choice.formattedAddress);
 
