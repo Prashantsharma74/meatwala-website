@@ -259,7 +259,7 @@ import { Helmet } from "react-helmet-async";
 //   { code: "+49", digits: 11 },
 // ]; 
 const COUNTRY_CODES = [
-  { code: "+44", digits: 10 }, // UK
+  { code: "+44", digits: 11 }, // UK
   { code: "+93", digits: 9 }, // Afghanistan
   { code: "+355", digits: 9 }, // Albania
   { code: "+213", digits: 9 }, // Algeria

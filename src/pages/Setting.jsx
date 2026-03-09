@@ -8,6 +8,7 @@ import FooterMobileMenu from "../components/FooterMobileMenu";
 import Delivery from "../components/delivery";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const API_URL = "https://partnermeatwala.com/api/customer";
 
@@ -24,19 +25,24 @@ const Setting = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const fileInputRef = useRef(null);
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
   const handleShowModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   useEffect(() => {
     if (isModalVisible) {
-      // modal open → scroll band
       document.body.style.overflow = "hidden";
     } else {
-      // modal close → scroll wapas
       document.body.style.overflow = "auto";
     }
 
-    // safety cleanup
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -71,7 +77,6 @@ const Setting = () => {
         );
       } else {
         console.warn("No customer data found or customer data array is empty");
-        // Navigate('/Login');
       }
     } catch (error) {
       console.error("Error fetching customer data:", error);
@@ -83,11 +88,35 @@ const Setting = () => {
   }, []);
 
   const userUpdate = async () => {
+    let newErrors = {};
+
+    if (!name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+
+    if (!phoneNumber.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (phoneNumber.length < 10) {
+      newErrors.phone = "Phone number must be 10 digits";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     const formData = new FormData();
     formData.append("pkid", storedUser?.userid);
     formData.append("name", name);
     formData.append("email", email);
     formData.append("mobile", phoneNumber);
+
     if (image) {
       formData.append("image", image);
     }
@@ -100,22 +129,51 @@ const Setting = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
+
+      // if (res.data.status === "1") {
+      //   alert("Profile updated successfully");
+      //   handleCloseModal();
+      //   getData();
+      // } else {
+      //   alert("Failed to update profile");
+      // }
       if (res.data.status === "1") {
+        Swal.fire({
+          icon: "success",
+          title: "Profile Updated",
+          text: "Your profile has been updated successfully.",
+          confirmButtonColor: "rgb(232, 65, 53)",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
         handleCloseModal();
+        getData();
       } else {
-        console.log(res.data, "not update");
+        Swal.fire({
+          icon: "error",
+          title: "Update Failed",
+          text: "Failed to update profile. Please try again.",
+          confirmButtonColor: "rgb(232, 65, 53)",
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Failed to update profile");
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong. Please try again.",
+        confirmButtonColor: "rgb(232, 65, 53)",
+      });
     }
   };
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
-      fileInputRef.current.click(); // Trigger file input click
+      fileInputRef.current.click();
     }
   };
 
@@ -129,9 +187,7 @@ const Setting = () => {
 
   return (
     <>
-      {/* Header section start */}
       <Navbar text={"setting"} />
-      {/* Header Section end */}
       <div className="mytabb overflow-hidden pt-120">
         <Delivery />
       </div>
@@ -153,7 +209,6 @@ const Setting = () => {
           </nav>
         </div>
       </section>
-      {/* profile section starts */}
       <section className="profile-section mt-4 section-b-space">
         <div className="container">
           <div className="row">
@@ -228,31 +283,6 @@ const Setting = () => {
               <div className="modal-body">
                 <div className="form-group">
                   <div className="profile-cover" style={{ width: "100px" }}>
-                    {/* <img
-                      className="img-fluid profile-pic"
-                      src={imagePreview || `https://partnermeatwala.com/documents/${user.imagename}`} 
-                      alt="profile"
-                      onClick={handleImageClick}
-                      style={{ cursor: 'pointer' }}
-                    /> */}
-                    {/* <img
-                      className="img-fluid profile-pic"
-                      src={`https://partnermeatwala.com/documents/${user?.imagename}`}
-                      alt="profile"
-                    />
-
-                    <img
-                      className="img-fluid profile-pic"
-                      src={`assets/images/profile-picture.webp`}
-                      alt="profile"
-                    /> */}
-                    {/* <img
-                      className="img-fluid profile-pic"
-                      src={`https://partnermeatwala.com/documents/${user?.imagename}` || 'assets/images/profile-picture.webp'}
-                      alt="profile"
-                      onClick={handleImageClick}
-                      style={{ cursor: 'pointer' }}
-                    /> */}
                     <img
                       className="img-fluid profile-pic rounded-circle"
                       src={getProfileImage()}
@@ -289,9 +319,16 @@ const Setting = () => {
                     className="form-control"
                     id="inputName"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      setErrors({ ...errors, name: "" });
+                    }}
                     placeholder="Enter your name"
                   />
+
+                  {errors.name && (
+                    <small style={{ color: "red" }}>{errors.name}</small>
+                  )}
                 </div>
                 <div className="form-group">
                   <label
@@ -306,9 +343,16 @@ const Setting = () => {
                     className="form-control"
                     id="inputEmail"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setErrors({ ...errors, email: "" });
+                    }}
                     placeholder="Enter your email"
                   />
+
+                  {errors.email && (
+                    <small style={{ color: "red" }}>{errors.email}</small>
+                  )}
                 </div>
                 <div className="form-group">
                   <label
@@ -323,19 +367,19 @@ const Setting = () => {
                     className="form-control"
                     id="inputNumber"
                     value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    maxLength={10}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, "");
+                      setPhoneNumber(value);
+                      setErrors({ ...errors, phone: "" });
+                    }}
                     placeholder="Enter your number"
                   />
+
+                  {errors.phone && (
+                    <small style={{ color: "red" }}>{errors.phone}</small>
+                  )}
                 </div>
-                {/* <div className="form-group">
-                  <label htmlFor="inputImage" className="form-label">Profile Image</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    id="inputImage"
-                    onChange={(e) => setImage(e.target.files[0])}
-                  />
-                </div> */}
               </div>
               <div className="modal-footer">
                 <button
@@ -395,14 +439,8 @@ const Setting = () => {
           </div>
         </div>
       </div>
-      {/* logout modal end */}
-      {/* footer section starts */}
       <Footer />
-      {/* footer section end */}
-      {/* mobile fix menu start */}
       <FooterMobileMenu selected={"setting"} />
-      {/* mobile fix menu end */}
-      {/* location offcanvas start */}
       <div
         className="modal fade location-modal"
         id="location"
@@ -471,20 +509,6 @@ const Setting = () => {
           </div>
         </div>
       </div>
-      {/* location offcanvas end */}
-      {/* tap to top start */}
-      {/* <button className="scroll scroll-to-top">
-    <i className="ri-arrow-up-s-line arrow" />
-  </button> */}
-      {/* tap to top end */}
-      {/* responsive space */}
-      {/* <div className="responsive-space" /> */}
-      {/* responsive space */}
-      {/* bootstrap js */}
-      {/* footer accordion js */}
-      {/* loader js */}
-      {/* swiper js */}
-      {/* script js */}
     </>
   );
 };
