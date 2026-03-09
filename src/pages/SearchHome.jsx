@@ -256,55 +256,6 @@ const Home = () => {
     setRecentLocations(recents);
   };
 
-  // const handleSuggestionClick = (suggestion) => {
-  //   saveRecentLocation(suggestion);
-  //   setSelectedSuggestion(suggestion);
-  //   setSearchTerm(suggestion.formattedAddress);
-  //   setSuggestions([]);
-  //   setIsSuggestionSelected(true);
-
-  //   const existingUserAddress =
-  //     JSON.parse(localStorage.getItem("userAddress")) || {};
-  //   const updatedUserAddress = {
-  //     ...existingUserAddress,
-  //     address: suggestion.formattedAddress,
-  //     lat: suggestion.lat.toString(),
-  //     lng: suggestion.lng.toString(),
-  //   };
-  //   localStorage.setItem("userAddress", JSON.stringify(updatedUserAddress));
-  //   dispatch(updateKeyValue({ key: "userAddress", value: updatedUserAddress }));
-
-  //   const pincode = {
-  //     longName: suggestion.postcode,
-  //     shortName: suggestion.postcode,
-  //     types: ["postal_code"],
-  //   };
-  //   localStorage.setItem("pincode", JSON.stringify(pincode));
-  //   dispatch(setPincode(pincode));
-
-  //   // const addressNumber = extractNumberFromAddress(suggestion.formattedAddress);
-  //   // if (addressNumber) {
-  //   //   setTitle(addressNumber);
-  //   //   handleAutoSubmit(suggestion, addressNumber);
-  //   // } else {
-  //   //   setShowAddressModal(true);
-  //   // }
-  //   // detect from user input first
-  //   let addressNumber = extractNumberFromAddress(searchTerm);
-
-  //   if (!addressNumber) {
-  //     addressNumber = extractNumberFromAddress(suggestion.formattedAddress);
-  //   }
-
-  //   if (addressNumber) {
-  //     setTitle(addressNumber);
-  //     handleAutoSubmit(suggestion, addressNumber);
-  //     return;
-  //   }
-
-  //   setShowAddressModal(true);
-  // };
-
   const handleSuggestionClick = async (suggestion) => {
     saveRecentLocation(suggestion);
 
@@ -335,10 +286,6 @@ const Home = () => {
     localStorage.setItem("pincode", JSON.stringify(pincode));
     dispatch(setPincode(pincode));
 
-    // const addressNumber =
-    //   title ||
-    //   extractNumberFromAddress(rawInput) ||
-    //   extractNumberFromAddress(suggestion.formattedAddress);
     const addressNumber =
       extractNumberFromAddress(rawInput) ||
       extractNumberFromAddress(suggestion.formattedAddress);
@@ -459,19 +406,6 @@ const Home = () => {
     try {
       setIsProcessing(true);
 
-      // Check if address starts with number
-      // const addressNumber = extractNumberFromAddress(choice.formattedAddress);
-      // if (addressNumber) {
-      //   // Set the number as title and auto-submit
-      //   setTitle(addressNumber);
-      //   await handleAutoSubmit(choice, addressNumber);
-      //   return;
-      // }
-
-      // const addressNumber =
-      //   title ||
-      //   extractNumberFromAddress(rawInput) ||
-      //   extractNumberFromAddress(choice.formattedAddress);
       const addressNumber =
         extractNumberFromAddress(rawInput) ||
         extractNumberFromAddress(choice.formattedAddress);
@@ -482,7 +416,6 @@ const Home = () => {
         return;
       }
 
-      // If address doesn't start with number, show modal
       const ok = await fetchRestaurants(
         choice.lat.toString(),
         choice.lng.toString(),
@@ -517,12 +450,9 @@ const Home = () => {
     setShowAddressModal(false);
   };
 
-  // const onSubmitSearch = async (e) => {
-  //   e.preventDefault();
-
   const onSubmitSearch = async (e) => {
     if (e) e.preventDefault();
-  
+
     if (searchTerm) {
       const addressNumber = extractNumberFromAddress(searchTerm);
       if (addressNumber) {
@@ -665,14 +595,6 @@ const Home = () => {
                         className="d-flex align-items-center justify-content-center"
                         style={{ width: "100%" }}
                       >
-                        {/* <div
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                            onSubmitSearch(e);
-                          }}
-                          className="d-flex align-items-center justify-content-center"
-                          style={{ width: "100%" }}
-                        > */}
                         <div
                           className="d-flex align-items-center justify-content-center"
                           style={{ width: "100%" }}
@@ -1337,6 +1259,23 @@ const Home = () => {
               </div>
 
               {recentLocations.map((loc, index) => (
+                // <div
+                //   key={index}
+                //   onClick={() => {
+                //     handleSuggestionClick(loc);
+                //     setShowLocationPopup(false);
+                //   }}
+                //   style={{
+                //     display: "flex",
+                //     alignItems: "center",
+                //     gap: "10px",
+                //     padding: "10px 0",
+                //     borderBottom: "1px solid #333",
+                //     cursor: "pointer",
+                //   }}
+                // >
+                //   📍 {loc.formattedAddress}
+                // </div>
                 <div
                   key={index}
                   onClick={() => {
@@ -1352,7 +1291,12 @@ const Home = () => {
                     cursor: "pointer",
                   }}
                 >
-                  📍 {loc.formattedAddress}
+                  <i
+                    className="ri-map-pin-line"
+                    style={{ fontSize: "18px", color: "#e84135" }}
+                  ></i>
+
+                  <span>{loc.formattedAddress}</span>
                 </div>
               ))}
             </div>
