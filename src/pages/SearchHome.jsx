@@ -1259,23 +1259,6 @@ const Home = () => {
               </div>
 
               {recentLocations.map((loc, index) => (
-                // <div
-                //   key={index}
-                //   onClick={() => {
-                //     handleSuggestionClick(loc);
-                //     setShowLocationPopup(false);
-                //   }}
-                //   style={{
-                //     display: "flex",
-                //     alignItems: "center",
-                //     gap: "10px",
-                //     padding: "10px 0",
-                //     borderBottom: "1px solid #333",
-                //     cursor: "pointer",
-                //   }}
-                // >
-                //   📍 {loc.formattedAddress}
-                // </div>
                 <div
                   key={index}
                   onClick={() => {
