@@ -247,17 +247,6 @@ import Footer from "../components/Footer";
 import FooterMobileMenu from "../components/FooterMobileMenu";
 import { Helmet } from "react-helmet-async";
 
-// const COUNTRY_CODES = [
-//   { code: "+44", digits: 11 },
-//   { code: "+93", digits: 9 },
-//   { code: "+355", digits: 9 },
-//   { code: "+213", digits: 9 },
-//   { code: "+1684", digits: 7 },
-//   { code: "+376", digits: 6 },
-//   { code: "+244", digits: 9 },
-//   { code: "+91", digits: 10 },
-//   { code: "+49", digits: 11 },
-// ]; 
 const COUNTRY_CODES = [
   { code: "+44", digits: 11 }, // UK
   { code: "+93", digits: 9 }, // Afghanistan
@@ -404,22 +393,50 @@ const Login = () => {
   }, [status, navigate, dispatch]);
 
   // Number input handler (digit lock)
+  // const handleNumberChange = (e) => {
+  //   const value = e.target.value.replace(/\D/g, "");
+  //   if (value.length <= country.digits) {
+  //     setMobile(value);
+  //   }
+  // };
+
   const handleNumberChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
-    if (value.length <= country.digits) {
+
+    // allow typing only up to 11 digits
+    if (value.length <= 11) {
       setMobile(value);
     }
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   if (mobile.length !== country.digits) {
+  //     toast.error(`This country requires exactly ${country.digits} digits`);
+  //     return;
+  //   }
+
+  //   const fullNumber = `${country.code}${mobile}`;
+  //   dispatch(sendOtp({ mobileno: fullNumber }));
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (mobile.length !== country.digits) {
-      toast.error(`This country requires exactly ${country.digits} digits`);
+    if (mobile.length < 10 || mobile.length > 11) {
+      toast.error("Mobile number must be 10 or 11 digits");
       return;
     }
 
-    const fullNumber = `${country.code}${mobile}`;
+    let formattedNumber = mobile;
+
+    if (mobile.length === 10) {
+      formattedNumber = "0" + mobile;
+    }
+
+    const fullNumber = `${country.code}${formattedNumber}`;
+
     dispatch(sendOtp({ mobileno: fullNumber }));
   };
 
