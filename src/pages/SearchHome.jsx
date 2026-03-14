@@ -29,8 +29,10 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import MobileViewAppDownload from "../components/MobileViewAppDownload";
 import { Helmet } from "react-helmet-async";
 import Charity from "../components/Charity";
+import { useRef } from "react";
 
 const Home = () => {
+  const inputRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -50,6 +52,12 @@ const Home = () => {
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [recentLocations, setRecentLocations] = useState([]);
   const [rawInput, setRawInput] = useState("");
+
+  useEffect(() => {
+    if (showLocationPopup && inputRef.current) {
+      inputRef.current.blur();
+    }
+  }, [showLocationPopup]);
 
   useEffect(() => {
     const savedAddress = localStorage.getItem("userAddress");
@@ -1179,7 +1187,24 @@ const Home = () => {
 
           {/* Search Input */}
           <div style={{ position: "relative", marginBottom: "15px" }}>
+            {/* <input
+              type="text"
+              value={searchTerm}
+              onChange={handleInputChange}
+              placeholder="Enter your postcode"
+              style={{
+                width: "100%",
+                padding: "12px 40px 12px 15px",
+                borderRadius: "12px",
+                border: "1px solid #666",
+                background: "#2b2b2b",
+                color: "#fff",
+                fontSize: "16px",
+                outline: "none",
+              }}
+            /> */}
             <input
+              ref={inputRef}
               type="text"
               value={searchTerm}
               onChange={handleInputChange}
