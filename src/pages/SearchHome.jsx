@@ -1262,7 +1262,10 @@ const Home = () => {
                   cursor: "pointer",
                 }}
               >
-                <span style={{ fontSize: "18px" }}>📍</span>
+                <i
+                  className="ri-map-pin-line"
+                  style={{ fontSize: "18px", color: "#e84135" }}
+                ></i>
 
                 <span style={{ fontSize: "14px", color: "#ddd" }}>
                   {suggestion.formattedAddress}
