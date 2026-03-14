@@ -1230,7 +1230,7 @@ const Home = () => {
               type="text"
               value={searchTerm}
               onChange={handleInputChange}
-              placeholder="Enter your postcode"
+              placeholder="Enter your postcoded"
               onClick={(e) => e.target.focus()}
               style={{
                 width: "100%",
