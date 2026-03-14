@@ -102,8 +102,8 @@ const Setting = () => {
 
     if (!phoneNumber.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (phoneNumber.length < 10) {
-      newErrors.phone = "Phone number must be 10 digits";
+    } else if (phoneNumber.length < 11) {
+      newErrors.phone = "Phone number must be 11 digits";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -367,7 +367,7 @@ const Setting = () => {
                     className="form-control"
                     id="inputNumber"
                     value={phoneNumber}
-                    maxLength={10}
+                    maxLength={11}
                     onChange={(e) => {
                       const value = e.target.value.replace(/\D/g, "");
                       setPhoneNumber(value);
