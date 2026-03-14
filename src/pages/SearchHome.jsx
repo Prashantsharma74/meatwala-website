@@ -54,8 +54,12 @@ const Home = () => {
   const [rawInput, setRawInput] = useState("");
 
   useEffect(() => {
-    if (showLocationPopup && inputRef.current) {
-      inputRef.current.blur();
+    if (showLocationPopup) {
+      setTimeout(() => {
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
+      }, 100);
     }
   }, [showLocationPopup]);
 
@@ -1203,12 +1207,31 @@ const Home = () => {
                 outline: "none",
               }}
             /> */}
+            {/* <input
+              ref={inputRef}
+              type="text"
+              value={searchTerm}
+              onChange={handleInputChange}
+              placeholder="Enter your postcode"
+              style={{
+                width: "100%",
+                padding: "12px 40px 12px 15px",
+                borderRadius: "12px",
+                border: "1px solid #666",
+                background: "#2b2b2b",
+                color: "#fff",
+                fontSize: "16px",
+                outline: "none",
+              }}
+            /> */}
+
             <input
               ref={inputRef}
               type="text"
               value={searchTerm}
               onChange={handleInputChange}
               placeholder="Enter your postcode"
+              onClick={(e) => e.target.focus()}
               style={{
                 width: "100%",
                 padding: "12px 40px 12px 15px",
