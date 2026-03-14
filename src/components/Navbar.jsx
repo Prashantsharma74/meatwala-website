@@ -1115,7 +1115,7 @@ const Navbar = ({ isStatic, text }) => {
 
                 {/* Recent locations grid */}
                 <div className="d-flex align-items-center justify-content-between mt-3 mb-2">
-                  <h6 className="fw-semibold m-0">Recent locations</h6>
+                  <h6 className="fw-semibold m-0">Recent locationss</h6>
                   {!allAddressesLoaded ? (
                     <button
                       onClick={showMoreAddresses}
