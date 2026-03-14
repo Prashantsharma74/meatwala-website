@@ -715,8 +715,9 @@ const Navbar = ({ isStatic, text }) => {
               className="navbar-toggler ml-auto d-lg-none"
               data-bs-target="#offcanvasNavbar"
               onClick={() => setVisible(true)}
+            // style={{height:"35px"}}
             >
-              <span className="navbar-toggler-icon">
+              <span className="navbar-toggler-icon ">
                 <i className="ri-menu-line" />
               </span>
             </CButton>

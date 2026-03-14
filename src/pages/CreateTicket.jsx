@@ -132,7 +132,6 @@ const CreateTicket = () => {
                           placeholder="Enter Order ID"
                           value={orderno}
                           onChange={(e) => setOrderno(e.target.value)}
-                          required
                         />
                       </div>
                       <div className="form-group mb-3">
