@@ -725,9 +725,8 @@ const Navbar = ({ isStatic, text }) => {
                 <div className="tab">
                   <div className="d-flex text-center">
                     <Link
-                      className={`tablinks ${
-                        activeTab === "Delivery" ? "active" : ""
-                      }`}
+                      className={`tablinks ${activeTab === "Delivery" ? "active" : ""
+                        }`}
                       style={{ width: "auto", padding: "7px 20px" }}
                       onClick={() => handleTabClick("Delivery")}
                     >
@@ -741,9 +740,8 @@ const Navbar = ({ isStatic, text }) => {
                       <p className="smtext">55-90 Min</p>
                     </Link>
                     <Link
-                      className={`tablinks ${
-                        activeTab === "Collection" ? "active" : ""
-                      }`}
+                      className={`tablinks ${activeTab === "Collection" ? "active" : ""
+                        }`}
                       style={{ width: "auto", padding: "7px 20px" }}
                       onClick={() => handleTabClick("Collection")}
                     >
@@ -1155,7 +1153,7 @@ const Navbar = ({ isStatic, text }) => {
                             <div data-bs-dismiss="modal" aria-label="Close">
                               <div
                                 className="fw-medium"
-                                style={{ fontSize: 14 }}
+                                style={{ fontSize: 14, color: "black" }}
                               >
                                 {addr.title}
                               </div>
@@ -1210,7 +1208,7 @@ const Navbar = ({ isStatic, text }) => {
                   onClick={addressAdd}
                   style={{
                     transition: "all 0.3s ease",
-                    padding:"10px 18px" //added by prashant 7470734508
+                    padding: "10px 18px" //added by prashant 7470734508
                   }}
                   onMouseEnter={(e) => {
                     e.target.style.filter = "brightness(85%)";
