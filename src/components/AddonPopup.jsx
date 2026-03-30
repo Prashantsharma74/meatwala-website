@@ -148,18 +148,78 @@ const AddonPopup = ({ onClose, food, restId }) => {
       setSelectedOptions({})
 
       // Scroll to Choose One section after selection
+      // setTimeout(() => {
+      //   scrollToNextSection('size')
+      // }, 300)
       setTimeout(() => {
-        scrollToNextSection('size')
+        if (modalBodyRef.current) {
+          const sections = modalBodyRef.current.querySelectorAll("[data-category]")
+
+          if (sections[0]) {
+            sections[0].scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            })
+          }
+        }
       }, 300)
     },
     [addon, scrollToNextSection],
   )
 
+  // const handleOptionChange = useCallback(
+  //   // (categoryId, subCategoryId, categoryName) => {
+  //   (categoryId, subCategoryId, index) => {
+  //     setSelectedOptions((prevOptions) => {
+  //       const currentSelections = prevOptions[categoryId] || []
+  //       const category = selectedItem?.menutypecategorys?.find((cat) => cat.menutypecategoryid === categoryId)
+
+  //       if (!category) return prevOptions
+
+  //       const isMultipleAllowed = category.ismultiple === "1"
+  //       const maxSelections = Number.parseInt(category.multiple, 10) || 0
+
+  //       let updatedSelections
+
+  //       if (!isMultipleAllowed || maxSelections === 1) {
+  //         // Radio button behavior - only one selection allowed
+  //         updatedSelections = [subCategoryId]
+  //       } else {
+  //         // Checkbox behavior - multiple selections allowed
+  //         if (currentSelections.includes(subCategoryId)) {
+  //           updatedSelections = currentSelections.filter((id) => id !== subCategoryId)
+  //         } else {
+  //           updatedSelections =
+  //             maxSelections === 0 || currentSelections.length < maxSelections
+  //               ? [...currentSelections, subCategoryId]
+  //               : currentSelections
+  //         }
+  //       }
+
+  //       return {
+  //         ...prevOptions,
+  //         [categoryId]: updatedSelections,
+  //       }
+  //     })
+
+  //     // Scroll to next section based on current category
+  //     setTimeout(() => {
+  //       if (categoryName === "Choose One") {
+  //         scrollToNextSection('chooseOne')
+  //       }
+  //       // For Cutting section, no need to scroll further as it's the last section
+  //     }, 300)
+  //   },
+  //   [selectedItem, scrollToNextSection],
+  // )
+
   const handleOptionChange = useCallback(
-    (categoryId, subCategoryId, categoryName) => {
+    (categoryId, subCategoryId, index) => {
       setSelectedOptions((prevOptions) => {
         const currentSelections = prevOptions[categoryId] || []
-        const category = selectedItem?.menutypecategorys?.find((cat) => cat.menutypecategoryid === categoryId)
+        const category = selectedItem?.menutypecategorys?.find(
+          (cat) => cat.menutypecategoryid === categoryId
+        )
 
         if (!category) return prevOptions
 
@@ -169,10 +229,8 @@ const AddonPopup = ({ onClose, food, restId }) => {
         let updatedSelections
 
         if (!isMultipleAllowed || maxSelections === 1) {
-          // Radio button behavior - only one selection allowed
           updatedSelections = [subCategoryId]
         } else {
-          // Checkbox behavior - multiple selections allowed
           if (currentSelections.includes(subCategoryId)) {
             updatedSelections = currentSelections.filter((id) => id !== subCategoryId)
           } else {
@@ -189,15 +247,23 @@ const AddonPopup = ({ onClose, food, restId }) => {
         }
       })
 
-      // Scroll to next section based on current category
+      // 🔥 AUTO SCROLL LOGIC (INDEX BASED)
       setTimeout(() => {
-        if (categoryName === "Choose One") {
-          scrollToNextSection('chooseOne')
+        const nextCategory = selectedItem?.menutypecategorys?.[index + 1]
+
+        if (nextCategory && modalBodyRef.current) {
+          const sections = modalBodyRef.current.querySelectorAll("[data-category]")
+
+          if (sections[index + 1]) {
+            sections[index + 1].scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            })
+          }
         }
-        // For Cutting section, no need to scroll further as it's the last section
       }, 300)
     },
-    [selectedItem, scrollToNextSection],
+    [selectedItem]
   )
 
   const isProceedDisabled = () => {
@@ -443,7 +509,7 @@ const AddonPopup = ({ onClose, food, restId }) => {
               </div>
 
               {currentItem?.menutypecategorys?.map((category, index) => (
-                <div key={category.menutypecategoryid} style={{ marginBottom: "24px" }}>
+                <div key={category.menutypecategoryid} data-category style={{ marginBottom: "24px" }}>
 
                   <h6 style={{ margin: "0 0 16px 0", fontWeight: "600", fontSize: "16px" }}>
                     {index + 2}. {category.name}
@@ -482,7 +548,8 @@ const AddonPopup = ({ onClose, food, restId }) => {
                             handleOptionChange(
                               category.menutypecategoryid,
                               subcategory.menutypesubcategoryid,
-                              category.name
+                              // category.name
+                              index
                             )
                           }
                         >
